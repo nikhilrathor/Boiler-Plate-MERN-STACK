@@ -1,8 +1,10 @@
 const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
+const cookieParser = require('cookie-parser');
+const users = require('./routes/api/users');
 
-const mongoURI = 'mongodb+srv://<username>:<password>@cluster0-duzlk.mongodb.net/test?retryWrites=true&w=majority';
+const mongoURI = 'mongodb+srv://test:test123@cluster0-uhiig.mongodb.net/test?retryWrites=true&w=majority';
 
 mongoose.connect(mongoURI,
     {
@@ -13,9 +15,11 @@ mongoose.connect(mongoURI,
     .then(() => console.log("MongoDB Connected"))
     .catch(err => console.log(err));
 
-app.get('/', (req, res) => {
-    res.send('Hello World')
-});
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+app.use(cookieParser());
+
+app.use('/api/users',users);
 
 const PORT = 5000;
 
