@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser');
-const users = require('./routes/api/users');
+const user = require('./routes/api/user');
 const config = require('./config/key');
 
 mongoose.connect(config.mongoURI,
@@ -18,7 +18,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cookieParser());
 
-app.use('/api/users', users);
+app.use('/api/user', user);
 
 const PORT = 5000;
 
