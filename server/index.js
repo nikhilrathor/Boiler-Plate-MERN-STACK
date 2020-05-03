@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser');
-const user = require('./routes/api/users');
+const users = require('./routes/api/users');
 const config = require('./config/key');
 
 mongoose.connect(config.mongoURI,
@@ -18,8 +18,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cookieParser());
 
-app.use('/api/users', user);
+app.use('/api/users', users);
 
-const PORT = 5000;
+const port = 5000 || process.env.PORT;
 
-app.listen(PORT, () => { console.log(`server started at port ${PORT}`) });
+app.listen(port, () => { console.log(`server started at port ${PORT}`) });
