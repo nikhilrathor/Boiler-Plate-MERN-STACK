@@ -3,10 +3,9 @@ const app = express();
 const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser');
 const users = require('./routes/api/users');
+const config = require('./config/key');
 
-const mongoURI = 'mongodb+srv://test:test123@cluster0-uhiig.mongodb.net/test?retryWrites=true&w=majority';
-
-mongoose.connect(mongoURI,
+mongoose.connect(config.mongoURI,
     {
         useNewUrlParser: true,
         useCreateIndex: true,
@@ -19,7 +18,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cookieParser());
 
-app.use('/api/users',users);
+app.use('/api/users', users);
 
 const PORT = 5000;
 
