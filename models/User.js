@@ -25,7 +25,7 @@ const userSchema = mongoose.Schema({
         type: Number,
         default: 0
     },
-    tokem: {
+    token: {
         type: String
     },
     tokenExp: {
@@ -33,24 +33,18 @@ const userSchema = mongoose.Schema({
     }
 });
 
-userSchema.pre('save', (next) => {
+userSchema.pre('save', function (next) {
     var user = this;
 
     if (user.isModified('password')) {
-        console.log('hi');
-        bcrypt.genSalt(saltRounds, (err, salt) => {
-            if (err) {
-                console.log('hi2');
-                return next(err);
-            }
+        bcrypt.genSalt(saltRounds, function (err, salt) {
+            if (err) return next(err);
 
-            bcrypt.hash(user.password, salt, (err, hash) => {
-                if (err) {
-                    console.log('hi3');
-                    return next(err);
-                }
+            bcrypt.hash(user.password, salt, function (err, hash) {
+                if (err) return next(err);
 
                 user.password = hash;
+                next();
             });
         });
     } else {
@@ -58,21 +52,32 @@ userSchema.pre('save', (next) => {
     }
 });
 
-userSchema.methods.comparePassword = (plainPassword, cb) => {
-    bcrypt.compare(plainPassword, this.password, (err, isMatch) => {
+userSchema.methods.comparePassword = function (plainPassword, cb) {
+    bcrypt.compare(plainPassword, this.password, function (err, isMatch) {
         if (err) return cb(err);
         cb(null, isMatch)
     })
 }
 
-userSchema.methods.generateToken = (cb) => {
+userSchema.methods.generateToken = function (cb) {
     let user = this;
     let token = jwt.sign(user._id.toHexString(), 'secret')
 
     user.token = token;
-    user.save((err, user) => {
+    user.save(function (err, user) {
         if (err) return cb(err)
         cb(null, user);
+    })
+}
+
+userSchema.statics.findByToken = function (token, cb) {
+    var user = this;
+
+    jwt.verify(token, 'secret', function (err, decode) {
+        user.findOne({ '_id': decode, 'token': token }, function (err, user) {
+            if (err) return cb(err);
+            cb(null, user);
+        })
     })
 }
 

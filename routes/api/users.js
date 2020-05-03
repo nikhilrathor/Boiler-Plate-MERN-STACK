@@ -1,14 +1,28 @@
 const express = require('express');
-const User = require('../../model/user');
+const User = require('../../models/User');
+const auth = require('../../middleware/auth');
 
 const router = express.Router();
+
+router.get('/auth', auth, (req, res) => {
+    res.status(200).json({
+        _id: req._id,
+        isAuth: true,
+        email: req.user.email,
+        name: req.user.name,
+        lastname: req.user.lastname,
+        role: req.user.role
+    })
+})
 
 router.post('/register', (req, res) => {
     const user = new User(req.body);
 
     user.save()
         .then(userData => {
-            return res.status(200).json(userData)
+            return res.status(200).json({
+                success: true
+            })
         })
         .catch(err => {
             if (err) return res.json({ success: false, err })
@@ -16,7 +30,7 @@ router.post('/register', (req, res) => {
 });
 
 router.post('/login', (req, res) => {
-    User.find({ email: req.body.email })
+    User.findOne({ email: req.body.email })
         .then(user => {
             if (!user) {
                 return res.json({
@@ -33,17 +47,16 @@ router.post('/login', (req, res) => {
 
             user.generateToken((err, user) => {
                 if (err) return res.status(400).send(err);
-                res.cookie('x-auth', user.token)
+                res.cookie('x_auth', user.token)
                     .status(200)
                     .json({
                         loginSuccess: true
                     })
             })
         })
-        .catch(err => {
-
-        })
 })
+
+
 
 
 module.exports = router;
