@@ -1,11 +1,13 @@
 import { combineReducers } from 'redux';
 
-import user from './user_reducer';
-import item from './item_reducer';
+import courses from './coursesReducer';
+import results from './resultsReducer';
+import centres from './centreReducer';
 
 const rootReducer = combineReducers({
-    user,
-    item
+    courses: courses,
+    results: results,
+    centres: centres
 });
 
 export default rootReducer;

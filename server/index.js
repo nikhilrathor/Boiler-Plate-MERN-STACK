@@ -3,6 +3,9 @@ const app = express();
 const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser');
 const users = require('./routes/api/users');
+const courses = require('./routes/api/courses');
+const results = require('./routes/api/results');
+const centre = require('./routes/api/centre');
 const config = require('./config/key');
 
 mongoose.connect(config.mongoURI,
@@ -19,6 +22,9 @@ app.use(express.json());
 app.use(cookieParser());
 
 app.use('/api/users', users);
+app.use('/api/courses', courses);
+app.use('/api/results', results);
+app.use('/api/centre', centre);
 
 const port = 5000 || process.env.PORT;
 
