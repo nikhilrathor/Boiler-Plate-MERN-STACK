@@ -41,7 +41,7 @@ class CourseNavbar extends Component {
                         <Nav className="ml-auto " navbar>
                             <NavItem >
                                 <NavLink href="/enroll" >
-                                    <Button outline color="secondary">Enroll Now</Button>{' '}
+                                    <Link to={`/course/enroll-now/${this.props.selectedCourse}`}><Button outline color="secondary">Enroll Now</Button>{' '}</Link>
                                 </NavLink>
                             </NavItem>
                         </Nav>

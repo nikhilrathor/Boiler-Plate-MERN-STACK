@@ -17,9 +17,12 @@ const userSchema = mongoose.Schema({
         type: String,
         minLength: 5
     },
-    lastname: {
+    phoneNumber:{
+        type: Number
+    },
+    address:{
         type: String,
-        maxlength: 25
+        maxLength: 100
     },
     role: {
         type: Number,
@@ -27,9 +30,6 @@ const userSchema = mongoose.Schema({
     },
     token: {
         type: String
-    },
-    tokenExp: {
-        type: Number
     }
 });
 
