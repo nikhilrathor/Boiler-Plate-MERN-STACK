@@ -1,6 +1,8 @@
 const express = require('express');
 const User = require('../../models/User');
 const auth = require('../../middleware/auth');
+const randomstring = require('randomstring');
+const mailer = require('../../misc/mailer');
 
 const router = express.Router();
 
@@ -15,17 +17,49 @@ router.get('/auth', auth, (req, res) => {
     })
 })
 
-router.post('/register', (req, res) => {
-    const user = new User(req.body);
+router.post('/temp-register', (req, res) => {
 
-    user.save()
-        .then(userData => {
-            return res.status(200).json({
-                success: true
-            })
+    const { email } = req.body;
+
+    User.findOne({ email })
+        .then(user => {
+            if (user) return res.status(400).json({ msg: "Email Id Already Registered!" })
+            
+            else {
+                const tempPassword = randomstring.generate();
+
+                const user = new User(req.body,
+                );
+                user.status = "temp";
+                user.tempPassword = tempPassword;
+
+                user.save()
+                    .then(user => {
+                        const html = `
+                        <h1>WELCOME TO EVEREST EDUCOM</h1>
+                        <br /><br />
+                        Hi there,
+                        <br />
+                        Your Temporary Account has been created,
+                        it will be deleted after 1 hour if no successfull enrollment occur.
+                        <br /><br />
+                        Temporary Password: <b>${user.tempPassword}</b>
+                        <br />
+                        Use this password and proceed to checkout.
+                        <br /><br />
+                        Have a pleasent Day!`;
+                        mailer.sendEmail('admin@EverestEducom.com', user.email, 'Temporary Account', html);
+                        return res.status(200).json({
+                            msg: "Security Token send to your Mail"
+                        })
+                    })
+                    .catch(err => {
+                        if (err) return res.status(400).json({ success: false, err })
+                    })
+            }
         })
         .catch(err => {
-            if (err) return res.json({ success: false, err })
+            return res.status(400).json({ msg: "Internal Error" })
         })
 });
 

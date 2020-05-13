@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Jumbotron, Button, Container, Row, Col, Form, FormGroup, Label, Input, Alert } from 'reactstrap';
 import { connect } from 'react-redux';
+import { register } from '../../../../../actions/authActions';
 
 class EnrollNow extends Component {
 
@@ -11,10 +12,15 @@ class EnrollNow extends Component {
         address: '',
         phoneNumber: '',
         course: localStorage.getItem('courseInfo'),
-        msg: null
+        msg: null,
     };
 
     componentDidUpdate(prevProps) {
+        const { auth } = this.props;
+        if (auth !== prevProps.auth) {
+            if (auth.status === 'temp')
+                this.setState({ msg: auth.msg });
+        }
         const { error } = this.props;
         if (error !== prevProps.error) {
             if (error.id === 'REGISTER_FAIL') {
@@ -32,18 +38,43 @@ class EnrollNow extends Component {
     onSubmit = (e) => {
         e.preventDefault();
 
-        const { name, email, password, address, course } = this.state;
-
-        const newUser = {
-            name,
-            email,
-            password,
-            address,
-            course
+        const { name, email, password, address, course, phoneNumber } = this.state;
+        const vaildmail = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
+        const validnumeric = /^\d+$/;
+        let valid = true;
+        if (!name && valid) {
+            this.setState({ msg: 'Name field cannot be empty' })
+            valid = false
         }
+        if (!vaildmail.test(email) && valid) {
+            this.setState({ msg: 'Invalid Email' })
+            valid = false
+        }
+        if (!password && valid) {
+            this.setState({ msg: 'Password field cannot be empty' })
+            valid = false
+        }
+        if ((!validnumeric.test(phoneNumber) || phoneNumber.length != 10) && valid) {
+            this.setState({ msg: 'Invalid phoneNumber' })
+            valid = false
+        }
+        if (!address && valid) {
+            this.setState({ msg: 'Address field cannot be empty' })
+            valid = false
+        }
+        if (valid) {
+            this.setState({ msg: null })
+            const newUser = {
+                name,
+                email,
+                password,
+                phoneNumber,
+                address,
+                course
+            }
 
-        this.props.register(newUser);
-
+            this.props.register(newUser);
+        }
     }
 
     render() {
@@ -66,8 +97,8 @@ class EnrollNow extends Component {
                                 <h1 >New Users</h1>
                                 <hr className="my-2" />
                                 <p>Enter Details for temperory account.</p>
-                                {this.state.msg ? (<Alert color='danger'>{this.state.msg}</Alert>) : null}
-                                <Form>
+                                {this.state.msg ? (<Alert color={this.props.auth.status === 'temp' ? 'success' : 'danger'}>{this.state.msg}</Alert>) : null}
+                                <Form onSubmit={this.onSubmit}>
                                     <FormGroup>
                                         <Label for="name">Name</Label>
                                         <Input type="text" name="name" id="name" placeholder="Name" onChange={this.onChange} />
@@ -89,7 +120,7 @@ class EnrollNow extends Component {
                                         <Input type="textarea" name="address" id="address" placeholder="Address" onChange={this.onChange} />
                                     </FormGroup>
                                     <p>
-                                        <Button onSubmit={this.onSubmit} color="primary">Submit</Button>
+                                        <Button color="primary">Submit</Button>
                                         <Button className="ml-5" color="primary">Proceed</Button>
                                     </p>
                                 </Form>
@@ -103,7 +134,8 @@ class EnrollNow extends Component {
 };
 
 const mapStateToProps = state => ({
-    error: state.error
+    error: state.error,
+    auth: state.auth
 })
 
-export default connect(mapStateToProps)(EnrollNow);
+export default connect(mapStateToProps, { register })(EnrollNow);

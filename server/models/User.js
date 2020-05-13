@@ -17,10 +17,13 @@ const userSchema = mongoose.Schema({
         type: String,
         minLength: 5
     },
-    phoneNumber:{
+    phoneNumber: {
         type: Number
     },
-    address:{
+    status: {
+        type: String
+    },
+    address: {
         type: String,
         maxLength: 100
     },
@@ -29,6 +32,13 @@ const userSchema = mongoose.Schema({
         default: 0
     },
     token: {
+        type: String
+    },
+    timestamp: {
+        type: Date,
+        default: Date.now
+    },
+    tempPassword: {
         type: String
     }
 });
