@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Jumbotron, Button, Container, Row, Col, Form, FormGroup, Label, Input, Alert } from 'reactstrap';
 import { connect } from 'react-redux';
 import { register, deleteUsers } from '../../../../../actions/authActions';
+import EnrollNowVerify from './verify';
 
 class EnrollNow extends Component {
 
@@ -92,7 +93,7 @@ class EnrollNow extends Component {
                                 <hr className="my-2" />
                                 <p>Users proceed by entering registered E-mail and password.</p>
                                 <p className="lead">
-                                    <Button color="info">Proceed</Button>
+                                <EnrollNowVerify />
                                 </p>
                             </Jumbotron>
                         </Col>
@@ -127,7 +128,7 @@ class EnrollNow extends Component {
                                 </Form>
                                 <hr className="my-2" />
                                 <p>Users proceed by entering temperory E-mail and password sent to your mail.</p>
-                                <Button color="info">Proceed</Button>
+                                <EnrollNowVerify />
                             </Jumbotron>
                         </Col>
                     </Row>
