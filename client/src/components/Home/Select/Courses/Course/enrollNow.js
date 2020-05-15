@@ -1,9 +1,13 @@
 import React, { Component } from 'react';
 import { Jumbotron, Button, Container, Row, Col, Form, FormGroup, Label, Input, Alert } from 'reactstrap';
 import { connect } from 'react-redux';
-import { register } from '../../../../../actions/authActions';
+import { register, deleteUsers } from '../../../../../actions/authActions';
 
 class EnrollNow extends Component {
+
+    componentDidMount(){
+        this.props.deleteUsers();
+    }
 
     state = {
         name: '',
@@ -88,7 +92,7 @@ class EnrollNow extends Component {
                                 <hr className="my-2" />
                                 <p>Users proceed by entering registered E-mail and password.</p>
                                 <p className="lead">
-                                    <Button color="primary">Proceed</Button>
+                                    <Button color="info">Proceed</Button>
                                 </p>
                             </Jumbotron>
                         </Col>
@@ -119,11 +123,11 @@ class EnrollNow extends Component {
                                         <Label for="address">Address</Label>
                                         <Input type="textarea" name="address" id="address" placeholder="Address" onChange={this.onChange} />
                                     </FormGroup>
-                                    <p>
-                                        <Button color="primary">Submit</Button>
-                                        <Button className="ml-5" color="primary">Proceed</Button>
-                                    </p>
+                                    <Button color="info">Submit</Button>
                                 </Form>
+                                <hr className="my-2" />
+                                <p>Users proceed by entering temperory E-mail and password sent to your mail.</p>
+                                <Button color="info">Proceed</Button>
                             </Jumbotron>
                         </Col>
                     </Row>
@@ -138,4 +142,4 @@ const mapStateToProps = state => ({
     auth: state.auth
 })
 
-export default connect(mapStateToProps, { register })(EnrollNow);
+export default connect(mapStateToProps, { register,deleteUsers })(EnrollNow);

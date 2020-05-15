@@ -34,9 +34,8 @@ const userSchema = mongoose.Schema({
     token: {
         type: String
     },
-    timestamp: {
-        type: Date,
-        default: Date.now
+    temp:{
+        type: Date
     },
     tempPassword: {
         type: String

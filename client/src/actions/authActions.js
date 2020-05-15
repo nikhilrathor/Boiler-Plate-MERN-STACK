@@ -2,7 +2,8 @@ import axios from 'axios';
 import { returnErrors } from './errorActions';
 import {
     REGISTER_SUCCESS,
-    REGISTER_FAIL
+    REGISTER_FAIL,
+    DELETE_EXPIRED_TEMP_USERS
 } from './types';
 
 export const register = (user) => dispatch =>{
@@ -25,4 +26,14 @@ export const register = (user) => dispatch =>{
             type: REGISTER_FAIL
         })
     })
+}
+
+export const deleteUsers = () => dispatch =>{
+    axios.delete(`/api/users`)
+        .then(res => dispatch({
+            type: DELETE_EXPIRED_TEMP_USERS
+        }))
+        .catch(err => {
+            dispatch(returnErrors(err.response.data, err.response.status))
+        });
 }

@@ -1,6 +1,7 @@
 import {
     REGISTER_SUCCESS,
-    REGISTER_FAIL
+    REGISTER_FAIL,
+    DELETE_EXPIRED_TEMP_USERS
 } from '../actions/types';
 
 const initialState = {
@@ -25,6 +26,10 @@ const reducer = (state=initialState,action) =>{
                 user: null,
                 status: '',
                 msg: {}
+            }
+        case DELETE_EXPIRED_TEMP_USERS:
+            return{
+                ...state
             }
         default:
             return state;
