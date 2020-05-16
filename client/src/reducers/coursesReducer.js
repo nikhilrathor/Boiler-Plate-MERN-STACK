@@ -1,10 +1,11 @@
-import { GET_COURSES, COURSES_LOADING, COURSE_ENQUIRY, COURSE_INFO, COURSE_DESCRIPTION } from '../actions/types';
+import { GET_COURSES, COURSES_LOADING, COURSE_ENQUIRY, COURSE_INFO, COURSE_DESCRIPTION, COURSE_FEES } from '../actions/types';
 
 const initialState = {
     courses: [],
     courseForEnquiry: '',
     courseForDetails: '',
     courseDescription: '',
+    courseFees: '',
     loading: false
 }
 
@@ -38,6 +39,11 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 courseDescription: action.payload.description
             }
+        case COURSE_FEES:
+            return {
+                ...state,
+                courseFees: action.payload.fees
+            }    
         default:
             return state;
     }

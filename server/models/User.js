@@ -37,9 +37,10 @@ const userSchema = mongoose.Schema({
     temp: {
         type: Date
     },
-    coursesEnrolled: {
-        type: [String]
-    }
+    coursesEnrolled: [{
+        courseName: String,
+        centre: String
+    }]
 });
 
 userSchema.pre('save', function (next) {

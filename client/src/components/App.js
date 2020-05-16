@@ -10,6 +10,7 @@ import AllBranches from './allBranches/allBranches';
 import ContactUs from './contactUs/contactUs';
 import Course from './Home/Select/Courses/Course';
 import AboutUs from './aboutUs/aboutUs';
+import Checkout from '../components/checkout/checkout';
 import {Container} from 'reactstrap';
 
 function App() {
@@ -25,6 +26,7 @@ function App() {
           <Route path="/contact-us" component={ContactUs} />
           <Route path="/about-us" component={AboutUs} />
           <Route path="/course" component={Course} />
+          <Route path="/checkout" component={Checkout} />
           <Route path="/login" component={Login} />
         </Switch>
         <Footer />

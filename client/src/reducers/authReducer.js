@@ -3,7 +3,9 @@ import {
     REGISTER_FAIL,
     DELETE_EXPIRED_TEMP_USERS,
     VERIFY_FAIL,
-    VERIFY_SUCCESS
+    VERIFY_SUCCESS,
+    PERMANENT_USER,
+    PAYMENT_FAIL
 } from '../actions/types';
 
 const initialState = {
@@ -11,7 +13,8 @@ const initialState = {
     isLoading: false,
     user: null,
     msg: {},
-    status: ''
+    status: '',
+    paymentCompleted: 'false'
 }
 
 const reducer = (state=initialState,action) =>{
@@ -44,6 +47,15 @@ const reducer = (state=initialState,action) =>{
                 ...state,
                 isAuthenticated: false,
                 user: null
+            }
+        case PERMANENT_USER:
+            return {
+                ...state,
+                paymentCompleted: true
+            }
+        case PAYMENT_FAIL:
+            return {
+                ...state
             }
         default:
             return state;

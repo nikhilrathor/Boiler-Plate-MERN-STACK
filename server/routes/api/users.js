@@ -66,6 +66,53 @@ router.post('/temp-register', (req, res) => {
         })
 });
 
+router.post('/final-register', (req, res) => {
+
+    const { email, password, selectedCourse, selectedCentre } = req.body;
+    User.findOne({ 'email': email })
+        .then(user => {
+            if (user) {
+                const course = {
+                    'courseName': selectedCourse,
+                    'centre': selectedCentre
+                }
+                user.coursesEnrolled.push(course);
+                user.status = "permanent";
+                user.password = password;
+
+                user.save()
+                    .then(user => {
+                        const html = `
+                            <h1>WELCOME TO EVEREST EDUCOM</h1>
+                            <br /><br />
+                            Hi there,
+                            <br />
+                            Your Permanent Account has been created,
+                            thanks for enrolling in ${selectedCourse} course
+                            <br /><br />
+                            Permanent Password: <b>${password}</b>
+                            <br />
+                            You can now use this password to login.
+                            <br /><br />
+                            Have a pleasent Day!`;
+                        mailer.sendEmail('admin@EverestEducom.com', user.email, 'Temporary Account', html);
+                        return res.status(200).json({
+                            msg: "Payment Invoice send to mail"
+                        })
+                    })
+                    .catch(err => {
+                        if (err) return res.status(400).json({ msg: "Something went wrong!" })
+                    })
+            }
+            else {
+                return res.status(400).json({ msg: "Internal Error1" })
+            }
+        })
+        .catch(err => {
+            return res.status(400).json({ msg: "Internal Error" })
+        })
+});
+
 router.delete('/', (req, res) => {
     var isodate1 = new Date();
     isodate1.setHours(isodate1.getHours() - 1);
@@ -99,7 +146,7 @@ router.post('/verify-user', (req, res) => {
                             return res.status(400).json({ msg: "Wrong Password" })
                         }
                         else
-                            return res.status(200).json({ user: user.email });
+                            return res.status(200).json(user.email);
                     })
                 }
                 else {
@@ -108,10 +155,27 @@ router.post('/verify-user', (req, res) => {
                             return res.status(400).json({ msg: "Wrong Password" })
                         }
                         else {
-                            if (user.coursesEnrolled.includes(course))
-                                return res.status(400).json({ msg: "You are already enrolled in this course!" })
-                            else
-                                return res.status(200).json({ user: user.email });
+                            User.findOne({
+                                $and: [
+                                    {
+                                        "email": email
+                                    },
+                                    {
+                                        "coursesEnrolled.courseName": course
+                                    }
+                                ]
+                            })
+                                .then(user1 => {
+                                    if (user1) {
+                                        return res.status(400).json({ msg: "You are already enrolled in this course!" })
+                                    }
+                                    else {
+                                        return res.status(200).json(user.email);
+                                    }
+                                })
+                                .catch(err => {
+                                    return res.status(400).json({ msg: "Internal Error1" })
+                                })
                         }
                     })
                 }

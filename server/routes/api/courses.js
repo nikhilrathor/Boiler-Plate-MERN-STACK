@@ -24,4 +24,10 @@ router.get('/description/:courseName', (req, res) => {
         .then(desc => res.json(desc))
 })
 
+router.get('/fees/:courseName', (req, res) => {
+    const courseName = req.params.courseName;
+    Courses.findOne({ courseName: courseName }, { fees: 1 })
+        .then(desc => res.json(desc))
+})
+
 module.exports = router;

@@ -5,7 +5,9 @@ import {
     REGISTER_FAIL,
     DELETE_EXPIRED_TEMP_USERS,
     VERIFY_FAIL,
-    VERIFY_SUCCESS
+    VERIFY_SUCCESS,
+    PERMANENT_USER,
+    PAYMENT_FAIL
 } from './types';
 
 export const register = (user) => dispatch =>{
@@ -58,4 +60,26 @@ export const deleteUsers = () => dispatch =>{
         .catch(err => {
             dispatch(returnErrors(err.response.data, err.response.status))
         });
+}
+
+export const permanentUser = (user) => dispatch =>{
+
+    const config = {
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }
+
+    //const body = JSON.stringify({name, email, password});
+    axios.post('/api/users/final-register',user ,config )
+    .then(res => dispatch({
+        type: PERMANENT_USER,
+        payload: res.data
+    }))
+    .catch(err =>{
+        dispatch(returnErrors(err.response.data, err.response.status,'PAYMENT_FAIL'))
+        dispatch({
+            type: PAYMENT_FAIL
+        })
+    })
 }

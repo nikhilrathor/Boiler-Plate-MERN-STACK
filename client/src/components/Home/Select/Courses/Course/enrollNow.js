@@ -3,11 +3,13 @@ import { Jumbotron, Button, Container, Row, Col, Form, FormGroup, Label, Input, 
 import { connect } from 'react-redux';
 import { register, deleteUsers } from '../../../../../actions/authActions';
 import EnrollNowVerify from './verify';
+import { Redirect } from 'react-router-dom';
 
 class EnrollNow extends Component {
 
-    componentDidMount(){
+    componentDidMount() {
         this.props.deleteUsers();
+        this.setState({msg: null});
     }
 
     state = {
@@ -16,7 +18,7 @@ class EnrollNow extends Component {
         address: '',
         phoneNumber: '',
         course: localStorage.getItem('courseInfo'),
-        msg: null,
+        msg: null
     };
 
     componentDidUpdate(prevProps) {
@@ -76,6 +78,8 @@ class EnrollNow extends Component {
     }
 
     render() {
+        if (this.props.auth.isAuthenticated)
+            return (<Redirect to={`/checkout/${this.state.course}`} />)
         return (
             <div>
                 <Container className="mt-5">
@@ -86,7 +90,7 @@ class EnrollNow extends Component {
                                 <hr className="my-2" />
                                 <p>Users proceed by entering registered E-mail and password.</p>
                                 <p className="lead">
-                                <EnrollNowVerify />
+                                    <EnrollNowVerify />
                                 </p>
                             </Jumbotron>
                         </Col>
@@ -132,4 +136,4 @@ const mapStateToProps = state => ({
     auth: state.auth
 })
 
-export default connect(mapStateToProps, { register,deleteUsers })(EnrollNow);
+export default connect(mapStateToProps, { register, deleteUsers })(EnrollNow);

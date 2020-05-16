@@ -23,7 +23,7 @@ class EnrollNowVerify extends Component {
     };
 
     componentDidUpdate(prevProps) {
-        const { error } = this.props;
+        const { error, isAuthenticated } = this.props;
         if (error !== prevProps.error) {
             if (error.id === 'VERIFY_FAIL') {
                 this.setState({ msg: error.msg.msg });
@@ -31,6 +31,13 @@ class EnrollNowVerify extends Component {
             else
                 this.setState({ msg: null });
         }
+
+        if(this.state.modal){
+            if(isAuthenticated){
+                this.toggle();
+            }
+        }
+
     }
 
     toggle = () => {
@@ -89,7 +96,7 @@ class EnrollNowVerify extends Component {
                                 <Input
                                     type="email"
                                     name="email"
-                                    id="email"
+                                    id="Email"
                                     placeholder="Email"
                                     className="mb-3"
                                     onChange={this.onChange}
@@ -122,7 +129,8 @@ class EnrollNowVerify extends Component {
 }
 
 const mapStateToProps = state => ({
-    error: state.error
+    error: state.error,
+    isAuthenticated: state.auth.isAuthenticated
 })
 
 export default connect(mapStateToProps, { clearErrors, verify })(EnrollNowVerify);
