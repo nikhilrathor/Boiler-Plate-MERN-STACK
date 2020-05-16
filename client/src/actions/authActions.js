@@ -3,7 +3,9 @@ import { returnErrors } from './errorActions';
 import {
     REGISTER_SUCCESS,
     REGISTER_FAIL,
-    DELETE_EXPIRED_TEMP_USERS
+    DELETE_EXPIRED_TEMP_USERS,
+    VERIFY_FAIL,
+    VERIFY_SUCCESS
 } from './types';
 
 export const register = (user) => dispatch =>{
@@ -24,6 +26,26 @@ export const register = (user) => dispatch =>{
         dispatch(returnErrors(err.response.data, err.response.status,'REGISTER_FAIL'))
         dispatch({
             type: REGISTER_FAIL
+        })
+    })
+}
+
+export const verify = (user) => dispatch =>{
+    const config = {
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }
+
+    axios.post('/api/users/verify-user',user, config)
+    .then(res => dispatch({
+        type: VERIFY_SUCCESS,
+        payload: res.data
+    }))
+    .catch(err =>{
+        dispatch(returnErrors(err.response.data, err.response.status,'VERIFY_FAIL'))
+        dispatch({
+            type: VERIFY_FAIL
         })
     })
 }

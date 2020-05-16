@@ -1,7 +1,9 @@
 import {
     REGISTER_SUCCESS,
     REGISTER_FAIL,
-    DELETE_EXPIRED_TEMP_USERS
+    DELETE_EXPIRED_TEMP_USERS,
+    VERIFY_FAIL,
+    VERIFY_SUCCESS
 } from '../actions/types';
 
 const initialState = {
@@ -30,6 +32,18 @@ const reducer = (state=initialState,action) =>{
         case DELETE_EXPIRED_TEMP_USERS:
             return{
                 ...state
+            }
+        case VERIFY_SUCCESS:
+            return {
+                ...state,
+                isAuthenticated: true,
+                user: action.payload
+            }
+        case VERIFY_FAIL:
+            return {
+                ...state,
+                isAuthenticated: false,
+                user: null
             }
         default:
             return state;

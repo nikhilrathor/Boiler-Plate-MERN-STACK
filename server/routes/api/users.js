@@ -19,7 +19,7 @@ router.get('/auth', auth, (req, res) => {
 
 router.post('/temp-register', (req, res) => {
 
-    const { email } = req.body;
+    const { name, email, phoneNumber, address } = req.body;
 
     User.findOne({ email })
         .then(user => {
@@ -28,17 +28,17 @@ router.post('/temp-register', (req, res) => {
             else {
                 const tempPassword = randomstring.generate();
 
-                const user = new User(req.body,
-                );
+                const user = new User({ name, email, phoneNumber, address });
+                //user.coursesEnrolled.push(course);
                 user.status = "temp";
-                user.tempPassword = tempPassword;
+                user.password = tempPassword;
                 var isodate = new Date;
                 //isodate.setHours(isodate.getHours() - 4);
                 user.temp = isodate;
 
-                    user.save()
-                        .then(user => {
-                            const html = `
+                user.save()
+                    .then(user => {
+                        const html = `
                         <h1>WELCOME TO EVEREST EDUCOM</h1>
                         <br /><br />
                         Hi there,
@@ -46,19 +46,19 @@ router.post('/temp-register', (req, res) => {
                         Your Temporary Account has been created,
                         it will be deleted after 1 hour if no successfull enrollment occur.
                         <br /><br />
-                        Temporary Password: <b>${user.tempPassword}</b>
+                        Temporary Password: <b>${tempPassword}</b>
                         <br />
                         Use this password and proceed to checkout.
                         <br /><br />
                         Have a pleasent Day!`;
-                            mailer.sendEmail('admin@EverestEducom.com', user.email, 'Temporary Account', html);
-                            return res.status(200).json({
-                                msg: "Security Token send to your Mail"
-                            })
+                        mailer.sendEmail('admin@EverestEducom.com', user.email, 'Temporary Account', html);
+                        return res.status(200).json({
+                            msg: "Security Token send to your Mail"
                         })
-                        .catch(err => {
-                            if (err) return res.status(400).json({ success: false, err })
-                        })
+                    })
+                    .catch(err => {
+                        if (err) return res.status(400).json({ msg: "Something went wrong!" })
+                    })
             }
         })
         .catch(err => {
@@ -84,6 +84,43 @@ router.delete('/', (req, res) => {
         .then(user => res.json({ success: true }))
         .catch(err => res.status(404).json({ success: false }))
 });
+
+router.post('/verify-user', (req, res) => {
+    const { email, password, course } = req.body;
+    User.findOne({ email })
+        .then(user => {
+            if (!user) {
+                return res.status(400).json({ msg: "Email Not Found!" })
+            }
+            else {
+                if (user.status === 'temp') {
+                    user.comparePassword(password, (err, isMatch) => {
+                        if (!isMatch) {
+                            return res.status(400).json({ msg: "Wrong Password" })
+                        }
+                        else
+                            return res.status(200).json({ user: user.email });
+                    })
+                }
+                else {
+                    user.comparePassword(password, (err, isMatch) => {
+                        if (!isMatch) {
+                            return res.status(400).json({ msg: "Wrong Password" })
+                        }
+                        else {
+                            if (user.coursesEnrolled.includes(course))
+                                return res.status(400).json({ msg: "You are already enrolled in this course!" })
+                            else
+                                return res.status(200).json({ user: user.email });
+                        }
+                    })
+                }
+            }
+        })
+        .catch(err => {
+            return res.status(400).json({ msg: "Internal Error" })
+        })
+})
 
 router.post('/login', (req, res) => {
     User.findOne({ email: req.body.email })

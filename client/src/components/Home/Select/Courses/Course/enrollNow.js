@@ -13,7 +13,6 @@ class EnrollNow extends Component {
     state = {
         name: '',
         email: '',
-        password: '',
         address: '',
         phoneNumber: '',
         course: localStorage.getItem('courseInfo'),
@@ -55,10 +54,6 @@ class EnrollNow extends Component {
             this.setState({ msg: 'Invalid Email' })
             valid = false
         }
-        if (!password && valid) {
-            this.setState({ msg: 'Password field cannot be empty' })
-            valid = false
-        }
         if ((!validnumeric.test(phoneNumber) || phoneNumber.length != 10) && valid) {
             this.setState({ msg: 'Invalid phoneNumber' })
             valid = false
@@ -72,10 +67,8 @@ class EnrollNow extends Component {
             const newUser = {
                 name,
                 email,
-                password,
                 phoneNumber,
-                address,
-                course
+                address
             }
 
             this.props.register(newUser);
@@ -111,10 +104,6 @@ class EnrollNow extends Component {
                                     <FormGroup>
                                         <Label for="email">Email</Label>
                                         <Input type="email" name="email" id="email" placeholder="Email" onChange={this.onChange} />
-                                    </FormGroup>
-                                    <FormGroup>
-                                        <Label for="password">Password</Label>
-                                        <Input type="password" name="password" id="password" placeholder="Password" onChange={this.onChange} />
                                     </FormGroup>
                                     <FormGroup>
                                         <Label for="phoneNumber">Phone Number</Label>

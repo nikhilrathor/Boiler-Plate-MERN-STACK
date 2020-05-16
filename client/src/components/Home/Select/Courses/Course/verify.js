@@ -12,6 +12,7 @@ import {
 } from 'reactstrap';
 import { connect } from 'react-redux';
 import { clearErrors } from '../../../../../actions/errorActions';
+import {verify} from '../../../../../actions/authActions';
 
 class EnrollNowVerify extends Component {
     state = {
@@ -63,9 +64,10 @@ class EnrollNowVerify extends Component {
             this.setState({ msg: null });
             const verifyUser = {
                 email,
-                password
+                password,
+                course: localStorage.getItem('courseInfo')
             }
-            //this.props.verify(verifyUser);
+            this.props.verify(verifyUser);
         }
 
     }
@@ -123,4 +125,4 @@ const mapStateToProps = state => ({
     error: state.error
 })
 
-export default connect(mapStateToProps, { clearErrors })(EnrollNowVerify);
+export default connect(mapStateToProps, { clearErrors, verify })(EnrollNowVerify);

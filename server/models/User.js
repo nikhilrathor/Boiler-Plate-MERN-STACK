@@ -34,11 +34,11 @@ const userSchema = mongoose.Schema({
     token: {
         type: String
     },
-    temp:{
+    temp: {
         type: Date
     },
-    tempPassword: {
-        type: String
+    coursesEnrolled: {
+        type: [String]
     }
 });
 
