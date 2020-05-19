@@ -5,6 +5,7 @@ import { getCentresByCourse } from '../../actions/centreActions';
 import { permanentUser } from '../../actions/authActions';
 import { courseFees } from '../../actions/coursesActions';
 import { Redirect } from 'react-router-dom';
+import Paypal from './paypal';
 
 class Checkout extends Component {
 
@@ -26,25 +27,45 @@ class Checkout extends Component {
         this.setState({ [e.target.name]: e.target.value });
     }
 
-    onSubmit = (e) => {
-        e.preventDefault();
+    render() {
+        const onSubmit = (data) => {
 
-        const { selectedCentre, selectedCourse } = this.state;
-        const { email } = this.props;
-        this.setState({ msg: null })
-        const User = {
-            email,
-            selectedCentre,
-            selectedCourse
+            this.setState({
+                msg: `Transaction Success, Redirecting to Login Page`
+            })
+
+            const { selectedCentre, selectedCourse } = this.state;
+            const { email } = this.props;
+            const User = {
+                email,
+                selectedCentre,
+                selectedCourse,
+                data
+            }
+
+            this.props.permanentUser(User);
         }
 
-        this.props.permanentUser(User);
-    }
+        const transactionError = () => {
+            this.setState({
+                msg: "Transaction Error"
+            })
+            console.log("Transaction Error");
+        }
 
-    render() {
-        const { isAuthenticated } = this.props;
+        const transactionCanceled = () => {
+            this.setState({
+                msg: "Transaction Cancelled"
+            })
+            console.log("Transaction Cancelled");
+        }
+
+        const { isAuthenticated, paymentCompleted } = this.props;
         if (!isAuthenticated)
             return (<Redirect to="/" />)
+        if (paymentCompleted) {
+            return (<Redirect to="/login" />)
+        }
         const { centres, Fees } = this.props;
         return (
             <div>
@@ -52,7 +73,7 @@ class Checkout extends Component {
                     <Row>
                         <Col sm="12" md={{ size: 6, offset: 3 }}>
                             <Jumbotron>
-                                {this.state.msg ? (<Alert color='danger'>{this.state.msg}</Alert>) : null}
+                                {this.state.msg ? (<Alert color={paymentCompleted ? 'success' : 'danger'}>{this.state.msg}</Alert>) : null}
 
                                 <h1 className="display-3" >Checkout</h1>
                                 <hr className="my-2" />
@@ -68,7 +89,7 @@ class Checkout extends Component {
                                         </ToastBody>
                                     </Toast>
                                 </div>
-                                <Form onSubmit={this.onSubmit}>
+                                <Form>
                                     <FormGroup>
                                         <Label for="centre">Centre</Label>
                                         <Input type="select" name="select" id="exampleSelect"
@@ -78,7 +99,13 @@ class Checkout extends Component {
                                             ))}
                                         </Input>
                                     </FormGroup>
-                                    <Button>Pay Now</Button>
+                                    {/* <Button>Pay Now</Button> */}
+                                    <Paypal
+                                        toPay={Fees}
+                                        onSuccess={onSubmit}
+                                        transactionError={transactionError}
+                                        transactionCanceled={transactionCanceled}
+                                    />
                                 </Form>
                             </Jumbotron>
                         </Col>

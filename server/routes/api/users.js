@@ -69,7 +69,7 @@ router.post('/temp-register', (req, res) => {
 
 router.post('/final-register', (req, res) => {
 
-    let { email, selectedCourse, selectedCentre } = req.body;
+    let { email, selectedCourse, selectedCentre, data } = req.body;
     if (selectedCentre === 'Select a Centre') {
         Centre.findOne({ courseOffered: selectedCourse },{placeName: 1})
             .then(res => (
@@ -93,13 +93,20 @@ router.post('/final-register', (req, res) => {
                             <br /><br />
                             Hi there,
                             <br />
-                            Your Permanent Account has been created,
-                            thanks for enrolling in ${selectedCourse} course
+                            Thanks for enrolling in ${selectedCourse}
                             <br /><br />
-                            You can now use this password to login.
+                            Payment Details:
+                            PAYER ID: ${data.payerID}
+                            <br />
+                            PAYMENT ID: ${data.paymentID}
+                            <br />
+                            PAYMENT TOKEN: ${data.paymentToken}
+                            <br / ><br />
+                            Now you can anytime use your password to login.
+                            Change Password option is available under user dashboard.
                             <br /><br />
                             Have a pleasent Day!`;
-                        mailer.sendEmail('admin@EverestEducom.com', user.email, 'Temporary Account', html);
+                        mailer.sendEmail('admin@EverestEducom.com', user.email, 'Course Enrolled', html);
                         return res.status(200).json({
                             msg: "Payment Invoice send to mail"
                         })
