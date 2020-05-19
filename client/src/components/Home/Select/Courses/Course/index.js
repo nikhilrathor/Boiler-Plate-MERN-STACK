@@ -5,10 +5,12 @@ import Details from './details';
 import Results from './Results';
 import EnrollNow from './enrollNow';
 import { connect } from 'react-redux';
-import { courseInfo } from '../../../../../actions/coursesActions'
+import { courseInfo } from '../../../../../actions/coursesActions';
+import {deleteUsers} from '../../../../../actions/authActions';
 
 class CourseDetails extends Component {
   componentDidMount(){
+    this.props.deleteUsers();
     this.props.courseInfo(localStorage.getItem('courseInfo'));
 }
   render() {
@@ -25,4 +27,4 @@ class CourseDetails extends Component {
   }
 }
 
-export default connect(null,{courseInfo})(CourseDetails);
+export default connect(null,{courseInfo, deleteUsers})(CourseDetails);

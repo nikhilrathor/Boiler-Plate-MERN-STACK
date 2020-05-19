@@ -1,5 +1,6 @@
 const express = require('express');
 const User = require('../../models/User');
+const Centre = require('../../models/Centre');
 const auth = require('../../middleware/auth');
 const randomstring = require('randomstring');
 const mailer = require('../../misc/mailer');
@@ -68,7 +69,13 @@ router.post('/temp-register', (req, res) => {
 
 router.post('/final-register', (req, res) => {
 
-    const { email, password, selectedCourse, selectedCentre } = req.body;
+    let { email, selectedCourse, selectedCentre } = req.body;
+    if (selectedCentre === 'Select a Centre') {
+        Centre.findOne({ courseOffered: selectedCourse },{placeName: 1})
+            .then(res => (
+                selectedCentre = res.placeName
+            ))
+    }
     User.findOne({ 'email': email })
         .then(user => {
             if (user) {
@@ -78,7 +85,6 @@ router.post('/final-register', (req, res) => {
                 }
                 user.coursesEnrolled.push(course);
                 user.status = "permanent";
-                user.password = password;
 
                 user.save()
                     .then(user => {
@@ -90,8 +96,6 @@ router.post('/final-register', (req, res) => {
                             Your Permanent Account has been created,
                             thanks for enrolling in ${selectedCourse} course
                             <br /><br />
-                            Permanent Password: <b>${password}</b>
-                            <br />
                             You can now use this password to login.
                             <br /><br />
                             Have a pleasent Day!`;

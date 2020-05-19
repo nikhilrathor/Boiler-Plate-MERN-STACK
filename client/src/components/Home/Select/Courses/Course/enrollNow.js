@@ -1,14 +1,13 @@
 import React, { Component } from 'react';
 import { Jumbotron, Button, Container, Row, Col, Form, FormGroup, Label, Input, Alert } from 'reactstrap';
 import { connect } from 'react-redux';
-import { register, deleteUsers } from '../../../../../actions/authActions';
+import { register } from '../../../../../actions/authActions';
 import EnrollNowVerify from './verify';
 import { Redirect } from 'react-router-dom';
 
 class EnrollNow extends Component {
 
     componentDidMount() {
-        this.props.deleteUsers();
         this.setState({msg: null});
     }
 
@@ -136,4 +135,4 @@ const mapStateToProps = state => ({
     auth: state.auth
 })
 
-export default connect(mapStateToProps, { register, deleteUsers })(EnrollNow);
+export default connect(mapStateToProps, { register })(EnrollNow);

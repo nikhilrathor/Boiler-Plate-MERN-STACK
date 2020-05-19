@@ -34,7 +34,8 @@ const reducer = (state=initialState,action) =>{
             }
         case DELETE_EXPIRED_TEMP_USERS:
             return{
-                ...state
+                ...state,
+                isAuthenticated: false
             }
         case VERIFY_SUCCESS:
             return {

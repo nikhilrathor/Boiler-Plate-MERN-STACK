@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { getCentresByCourse } from '../../actions/centreActions';
 import { permanentUser } from '../../actions/authActions';
 import { courseFees } from '../../actions/coursesActions';
-import {Redirect} from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 
 class Checkout extends Component {
 
@@ -15,7 +15,6 @@ class Checkout extends Component {
     state = {
         selectedCourse: localStorage.getItem('courseInfo'),
         selectedCentre: 'Select a Centre',
-        password: '',
         msg: null
     }
     setCentre = (e) => {
@@ -30,34 +29,22 @@ class Checkout extends Component {
     onSubmit = (e) => {
         e.preventDefault();
 
-        const { password, selectedCentre, selectedCourse } = this.state;
-        const {email} = this.props;
-        let valid = true;
-        if (selectedCentre === 'Select a Centre' && valid) {
-            this.setState({ msg: 'Please Select a centre' })
-            valid = false
+        const { selectedCentre, selectedCourse } = this.state;
+        const { email } = this.props;
+        this.setState({ msg: null })
+        const User = {
+            email,
+            selectedCentre,
+            selectedCourse
         }
-        if (!password && valid) {
-            this.setState({ msg: 'Password field cannot be empty' })
-            valid = false
-        }
-        if (valid) {
-            this.setState({ msg: null })
-            const User = {
-                email,
-                password,
-                selectedCentre,
-                selectedCourse
-            }
 
-            this.props.permanentUser(User);
-        }
+        this.props.permanentUser(User);
     }
 
     render() {
-        /* const {isAuthenticated, paymentCompleted} = this.props;
-        if (!isAuthenticated || paymentCompleted)
-            return (<Redirect to="/" />) */
+        const { isAuthenticated } = this.props;
+        if (!isAuthenticated)
+            return (<Redirect to="/" />)
         const { centres, Fees } = this.props;
         return (
             <div>
@@ -86,15 +73,10 @@ class Checkout extends Component {
                                         <Label for="centre">Centre</Label>
                                         <Input type="select" name="select" id="exampleSelect"
                                             onChange={this.setCentre}>
-                                            <option>Select a Centre</option>
                                             {centres.map(({ _id, placeName }) => (
                                                 <option key={_id}>{placeName}</option>
                                             ))}
                                         </Input>
-                                    </FormGroup>
-                                    <FormGroup>
-                                        <Label for="examplePassword">Password</Label>
-                                        <Input type="password" name="password" id="examplePassword" placeholder="Enter your permanent password" onChange={this.onChange} />
                                     </FormGroup>
                                     <Button>Pay Now</Button>
                                 </Form>
