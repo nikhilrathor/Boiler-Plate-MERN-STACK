@@ -7,7 +7,12 @@ import {
     VERIFY_FAIL,
     VERIFY_SUCCESS,
     PERMANENT_USER,
-    PAYMENT_FAIL
+    PAYMENT_FAIL,
+    USER_LOADED,
+    AUTH_ERROR,
+    LOGIN_FAIL,
+    LOGIN_SUCCESS,
+    LOGOUT_SUCCESS
 } from './types';
 
 export const register = (user) => dispatch =>{
@@ -82,4 +87,64 @@ export const permanentUser = (user) => dispatch =>{
             type: PAYMENT_FAIL
         })
     })
+}
+
+export const loadUser = () => (dispatch, getState) => {
+
+    axios.get('/api/users/user', tokenConfig(getState))
+        .then(res => dispatch({
+            type: USER_LOADED,
+            payload: res.data
+        }))
+        .catch(err => {
+            dispatch(returnErrors(err.response.data, err.response.status))
+            dispatch({
+                type: AUTH_ERROR
+            })
+        })
+
+}
+
+export const login = (user) => dispatch =>{
+
+    const config = {
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }
+
+    axios.post('/api/users/login',user ,config )
+    .then(res => dispatch({
+        type: LOGIN_SUCCESS,
+        payload: res.data
+    }))
+    .catch(err =>{
+        dispatch(returnErrors(err.response.data, err.response.status,'LOGIN_FAIL'))
+        dispatch({
+            type: LOGIN_FAIL
+        })
+    })
+}
+
+export const logout = () =>{
+    return {
+        type: LOGOUT_SUCCESS
+    }
+}
+
+export const tokenConfig = getState =>{
+
+    const token = getState().auth.token;
+
+    const config = {
+        headers: {
+            "Content-type": "application/json"
+        }
+    }
+
+    if (token) {
+        config.headers['x-auth-token'] = token;
+    }
+
+    return config;
 }

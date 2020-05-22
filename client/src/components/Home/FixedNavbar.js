@@ -28,7 +28,7 @@ class FixedNavbar extends Component {
 
     render() {
         const { courses } = this.props.courses;
-        console.log(courses);
+        //console.log(courses);
         return (
             <div>
                 <Navbar color="dark" dark expand="md" className="navbar navbar-light bg-info">

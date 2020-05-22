@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { Jumbotron, Button, Container } from 'reactstrap';
 import { Form, FormGroup, Label, Input, Row, Col, Alert } from 'reactstrap';
-
+import { login } from '../../actions/authActions';
+import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 class Login extends Component {
     state = {
         email: '',
@@ -34,12 +36,16 @@ class Login extends Component {
                 email,
                 password
             }
-            //this.props.login(verifyUser);
+            this.props.login(User);
         }
 
     }
 
     render() {
+        if (this.props.loggedInUser)
+            return <Redirect to='user' />
+        if (this.props.loggedInAdmin)
+            return <Redirect to='admin' />
         return (
             <div className="mt-5">
                 <Jumbotron>
@@ -89,4 +95,9 @@ class Login extends Component {
     }
 };
 
-export default Login;
+const MapStateToProps = state => ({
+    loggedInUser: state.auth.loggedInUser,
+    loggedInAdmin: state.auth.loggedInAdmin
+})
+
+export default connect(MapStateToProps, { login })(Login);

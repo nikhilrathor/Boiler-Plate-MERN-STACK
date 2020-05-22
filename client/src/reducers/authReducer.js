@@ -5,7 +5,12 @@ import {
     VERIFY_FAIL,
     VERIFY_SUCCESS,
     PERMANENT_USER,
-    PAYMENT_FAIL
+    PAYMENT_FAIL,
+    AUTH_ERROR,
+    LOGIN_FAIL,
+    LOGOUT_SUCCESS,
+    LOGIN_SUCCESS,
+    USER_LOADED
 } from '../actions/types';
 
 const initialState = {
@@ -14,11 +19,41 @@ const initialState = {
     user: null,
     msg: {},
     status: '',
-    paymentCompleted: 'false'
+    paymentCompleted: 'false',
+    token: localStorage.getItem('token'),
+    loggedInUser: false,
+    loggedInAdmin: false,
+    User: null
 }
 
-const reducer = (state=initialState,action) =>{
-    switch(action.type){
+const reducer = (state = initialState, action) => {
+    switch (action.type) {
+        case USER_LOADED:
+            return {
+                ...state,
+                loggedInUser: action.payload.loggedInUser,
+                loggedInAdmin: action.payload.loggedInAdmin,
+                User: action.payload
+            }
+        case LOGIN_SUCCESS:
+            localStorage.setItem('token', action.payload.token);
+            return {
+                ...state,
+                User: action.payload.user,
+                loggedInUser: action.payload.loggedInUser,
+                loggedInAdmin: action.payload.loggedInAdmin
+            }
+        case AUTH_ERROR:
+        case LOGIN_FAIL:
+        case LOGOUT_SUCCESS:
+            localStorage.removeItem('token');
+            return {
+                ...state,
+                token: null,
+                User: null,
+                loggedInUser: false,
+                loggedInAdmin: false
+            }
         case REGISTER_SUCCESS:
             return {
                 ...state,
@@ -33,7 +68,7 @@ const reducer = (state=initialState,action) =>{
                 msg: {}
             }
         case DELETE_EXPIRED_TEMP_USERS:
-            return{
+            return {
                 ...state,
                 isAuthenticated: false,
                 paymentCompleted: false

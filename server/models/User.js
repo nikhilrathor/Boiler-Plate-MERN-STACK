@@ -31,9 +31,6 @@ const userSchema = mongoose.Schema({
         type: Number,
         default: 0
     },
-    token: {
-        type: String
-    },
     temp: {
         type: Date
     },
@@ -69,7 +66,7 @@ userSchema.methods.comparePassword = function (plainPassword, cb) {
     })
 }
 
-userSchema.methods.generateToken = function (cb) {
+/* userSchema.methods.generateToken = function (cb) {
     let user = this;
     let token = jwt.sign(user._id.toHexString(), 'secret')
 
@@ -89,6 +86,6 @@ userSchema.statics.findByToken = function (token, cb) {
             cb(null, user);
         })
     })
-}
+} */
 
 module.exports = User = mongoose.model('User', userSchema);
