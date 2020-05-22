@@ -43,7 +43,7 @@ class Login extends Component {
 
     render() {
         if (this.props.loggedInUser)
-            return <Redirect to='user' />
+            return <Redirect to='user/classes' />
         if (this.props.loggedInAdmin)
             return <Redirect to='admin' />
         return (
