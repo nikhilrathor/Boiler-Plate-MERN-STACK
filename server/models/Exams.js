@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
-const ClassesSchema = mongoose.Schema({
-    day: {
+const ExamSchema = mongoose.Schema({
+    date: {
         type: String,
         required: true
     },
@@ -9,11 +9,7 @@ const ClassesSchema = mongoose.Schema({
         type: String,
         required: true
     },
-    topicName:{
-        type: String,
-        required: true
-    },
-    teacherName: {
+    topicName: {
         type: String,
         required: true
     },
@@ -23,4 +19,4 @@ const ClassesSchema = mongoose.Schema({
     }
 });
 
-module.exports = Classes = mongoose.model('Classes', ClassesSchema);
+module.exports = Exams = mongoose.model('Exams', ExamSchema);

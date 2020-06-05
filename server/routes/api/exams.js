@@ -2,31 +2,30 @@ const express = require('express');
 const router = express.Router();
 const auth = require('../../middleware/auth');
 
-const Classes = require('../../models/Classes');
+const Exams = require('../../models/Exams');
 const User = require('../../models/User');
 
 
 router.post('/', (req, res) => {
-    const { day, time, teacherName, courseName, centre, topicName } = req.body;
+    const { date, time, courseName, centre, topicName } = req.body;
 
-    const classes = new Classes({
-        day: day,
+    const exam = new Exams({
+        date: date,
         time: time,
-        teacherName: teacherName,
         topicName: topicName,
         course: {
             'courseName': courseName,
             'centre': centre
         }
     });
-    classes.save()
+    exam.save()
         .then(data => res.json(data));
 });
 
 router.get('/user', auth, (req, res) => {
     User.findById(req.user.id)
         .then(user => {
-            Classes.find({ course: { $in: user.coursesEnrolled } })
+            Exams.find({ course: { $in: user.coursesEnrolled } })
                 .then(data => {
                     return res.status(200).json(data);
                 })

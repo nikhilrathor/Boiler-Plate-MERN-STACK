@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import {returnErrors} from '../../actions/errorActions';
+import { returnErrors } from '../../actions/errorActions';
 import { Table } from 'reactstrap';
 
 class Classes extends Component {
@@ -26,30 +26,32 @@ class Classes extends Component {
     }
     render() {
         console.log(this.state.classes)
-        const {classes} = this.state;
+        const { classes } = this.state;
         return (
             <div>
                 <h1 className="text-center mt-5">CLASS SCHEDULE</h1>
-                <Table hover responsive className="mt-5">
+                <Table hover responsive className="mt-5 text-center">
                     <thead>
                         <tr>
                             <th>Day</th>
                             <th>Time</th>
                             <th>Course Name</th>
+                            <th>Topic Name</th>
                             <th>Teacher Name</th>
                             <th>Centre</th>
                         </tr>
                     </thead>
                     <tbody>
-                    {classes && classes.map(({course, day, teacherName, time})=>(
-                        <tr key={day}>
-                            <td>{day}</td>
-                            <td>{time}</td>
-                            <td>{course.courseName}</td>
-                            <td>{teacherName}</td>
-                            <td>{course.centre}</td>
-                        </tr>
-                    ))}
+                        {classes && classes.map(({ course, day, teacherName, time, topicName }) => (
+                            <tr key={day}>
+                                <td>{day}</td>
+                                <td>{time}</td>
+                                <td>{course.courseName}</td>
+                                <td>{topicName}</td>
+                                <td>{teacherName}</td>
+                                <td>{course.centre}</td>
+                            </tr>
+                        ))}
                     </tbody>
                 </Table>
             </div>
