@@ -5,7 +5,7 @@ const transport = nodemailer.createTransport({
     service: 'Gmail',
     auth: {
         user: config.MAIL_USER,
-        pass: config.MAIL_PASS
+        pass: config.MAIL_PASSWORD
     },
     tls: {
         rejectUnauthorized: false

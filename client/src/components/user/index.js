@@ -13,7 +13,6 @@ class user extends Component {
         return (
             <div>
                 <NavBar />
-                USER
                 <Switch>
                     <Route path="/user/classes" component={classes} />
                     <Route path="/user/exams" component={exams} />

@@ -116,7 +116,7 @@ router.post('/final-register', (req, res) => {
 
     let { email, selectedCourse, selectedCentre, data } = req.body;
     if (selectedCentre === 'Select a Centre') {
-        Centre.findOne({ courseOffered: selectedCourse }, { placeName: 1 })
+        Centre.findOne({ courseOffered: selectedCourse.trim() }, { placeName: 1 }).sort({ placeName: 'descending' })
             .then(res => (
                 selectedCentre = res.placeName
             ))

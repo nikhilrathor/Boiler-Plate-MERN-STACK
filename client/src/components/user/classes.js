@@ -1,41 +1,61 @@
 import React, { Component } from 'react';
+import axios from 'axios';
+import {returnErrors} from '../../actions/errorActions';
 import { Table } from 'reactstrap';
 
 class Classes extends Component {
+    state = {
+        classes: null
+    }
+    componentDidMount() {
+
+        const config = {
+            headers: {
+                "Content-type": "application/json",
+                'x-auth-token': localStorage.getItem('token')
+            }
+        }
+
+        axios.get('/api/classes/user', config)
+            .then(res => this.setState({
+                classes: res.data
+            }))
+            .catch(err => {
+                returnErrors(err.data, err.status)
+            })
+    }
     render() {
+        console.log(this.state.classes)
+        const {classes} = this.state;
         return (
-            <Table hover>
-                <thead>
-                    <tr>
-                        <th>Day</th>
-                        <th>Time</th>
-                        <th>Course Name</th>
-                        <th>Centre</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Mark</td>
-                        <td>Otto</td>
-                        <td>@mdo</td>
-                        <td>@mdo</td>
-                    </tr>
-                    <tr>
-                        <td>Jacob</td>
-                        <td>Thornton</td>
-                        <td>@fat</td>
-                        <td>@mdo</td>
-                    </tr>
-                    <tr>
-                        <td>Larry</td>
-                        <td>the Bird</td>
-                        <td>@twitter</td>
-                        <td>@mdo</td>
-                    </tr>
-                </tbody>
-            </Table>
+            <div>
+                <h1 className="text-center mt-5">CLASS SCHEDULE</h1>
+                <Table hover responsive className="mt-5">
+                    <thead>
+                        <tr>
+                            <th>Day</th>
+                            <th>Time</th>
+                            <th>Course Name</th>
+                            <th>Teacher Name</th>
+                            <th>Centre</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {classes && classes.map(({course, day, teacherName, time})=>(
+                        <tr key={day}>
+                            <td>{day}</td>
+                            <td>{time}</td>
+                            <td>{course.courseName}</td>
+                            <td>{teacherName}</td>
+                            <td>{course.centre}</td>
+                        </tr>
+                    ))}
+                    </tbody>
+                </Table>
+            </div>
         );
     }
 }
+
 
 export default Classes;

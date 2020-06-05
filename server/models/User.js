@@ -3,6 +3,15 @@ const bcrypt = require('bcrypt');
 const saltRounds = 10;
 const jwt = require('jsonwebtoken');
 
+const coursesEnrolledSchema = mongoose.Schema({
+    courseName: {
+        type: String
+    },
+    centre: {
+        type: String
+    }
+}, { _id: false });
+
 const userSchema = mongoose.Schema({
     name: {
         type: String,
@@ -34,10 +43,7 @@ const userSchema = mongoose.Schema({
     temp: {
         type: Date
     },
-    coursesEnrolled: [{
-        courseName: String,
-        centre: String
-    }]
+    coursesEnrolled: [coursesEnrolledSchema]
 });
 
 userSchema.pre('save', function (next) {

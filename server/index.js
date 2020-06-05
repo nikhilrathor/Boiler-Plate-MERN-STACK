@@ -6,6 +6,7 @@ const users = require('./routes/api/users');
 const courses = require('./routes/api/courses');
 const results = require('./routes/api/results');
 const centre = require('./routes/api/centre');
+const classes = require('./routes/api/classes');
 const config = require('./config/key');
 
 mongoose.connect(config.mongoURI,
@@ -25,6 +26,7 @@ app.use('/api/users', users);
 app.use('/api/courses', courses);
 app.use('/api/results', results);
 app.use('/api/centre', centre);
+app.use('/api/classes', classes);
 
 const port = 5000 || process.env.PORT;
 

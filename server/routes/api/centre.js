@@ -29,7 +29,7 @@ router.get('/place/:placeName', (req, res) => {
 
 router.get('/course/:courseName', (req, res) => {
     const courseName = req.params.courseName;
-    Centre.find({ courseOffered: courseName }, { placeName: 1 })
+    Centre.find({ courseOffered: courseName }, { placeName: 1 }).sort({ placeName: 'descending' })
         .then(centre => res.json(centre))
 });
 

@@ -11,6 +11,7 @@ import ReduxThunk from 'redux-thunk';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import Reducer from './reducers';
+import ScrollToTop from './ScrollToTop';
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(Reducer, composeEnhancers(
@@ -18,11 +19,13 @@ const store = createStore(Reducer, composeEnhancers(
 ));
 
 ReactDOM.render(
-    <Provider store={store}>
-      <BrowserRouter>
+  <Provider store={store}>
+    <BrowserRouter>
+      <ScrollToTop>
         <App />
-      </BrowserRouter>
-    </Provider>,
+      </ScrollToTop>
+    </BrowserRouter>
+  </Provider>,
   document.getElementById('root')
 );
 
