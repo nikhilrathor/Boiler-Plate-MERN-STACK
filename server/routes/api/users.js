@@ -215,6 +215,33 @@ router.get('/user', auth, (req, res) => {
         }));
 });
 
+router.post('/changePassword', auth, (req,res)=>{
+    const {oldPassword, newPassword} = req.body;
+    User.findById(req.user.id)
+    .then(user => {
+        if (!user) return res.status(400).json({ msg: "Something went wrong!" });
+
+        user.comparePassword(oldPassword, (err, isMatch) => {
+            if (!isMatch) {
+                return res.status(400).json({ msg: "Invalid Credentials" })
+            }
+            else {
+                user.password = newPassword;
+                user.save()
+                .then(data =>{
+                    res.status(200).json({msg: "Password changed successfully!"})
+                })
+                .catch(err =>{
+                    return res.status(401).json({ msg: "Something went wrong!" });
+                })
+            }
+        })
+    })
+    .catch(err =>{
+        return res.status(401).json({ msg: "Something went wrong!" });
+    })
+})
+
 router.delete('/', (req, res) => {
     var isodate1 = new Date();
     isodate1.setHours(isodate1.getHours() - 1);

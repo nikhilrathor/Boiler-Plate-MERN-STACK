@@ -10,7 +10,10 @@ import {
     LOGIN_FAIL,
     LOGOUT_SUCCESS,
     LOGIN_SUCCESS,
-    USER_LOADED
+    USER_LOADED,
+    CHANGE_PASSWORD_FAIL,
+    CHANGE_PASSWORD_SUCCESS,
+    INIT_CHANGE_PASSWORD
 } from '../actions/types';
 
 const initialState = {
@@ -23,7 +26,8 @@ const initialState = {
     token: localStorage.getItem('token'),
     loggedInUser: false,
     loggedInAdmin: false,
-    User: null
+    User: null,
+    passwordChanged: false
 }
 
 const reducer = (state = initialState, action) => {
@@ -93,6 +97,17 @@ const reducer = (state = initialState, action) => {
         case PAYMENT_FAIL:
             return {
                 ...state
+            }
+        case CHANGE_PASSWORD_SUCCESS:
+            return {
+                ...state,
+                passwordChanged: true
+            }
+        case INIT_CHANGE_PASSWORD:
+        case CHANGE_PASSWORD_FAIL:
+            return {
+                ...state,
+                passwordChanged: false
             }
         default:
             return state;

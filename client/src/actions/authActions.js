@@ -12,10 +12,13 @@ import {
     AUTH_ERROR,
     LOGIN_FAIL,
     LOGIN_SUCCESS,
-    LOGOUT_SUCCESS
+    LOGOUT_SUCCESS,
+    CHANGE_PASSWORD_SUCCESS,
+    CHANGE_PASSWORD_FAIL,
+    INIT_CHANGE_PASSWORD
 } from './types';
 
-export const register = (user) => dispatch =>{
+export const register = (user) => dispatch => {
 
     const config = {
         headers: {
@@ -24,40 +27,40 @@ export const register = (user) => dispatch =>{
     }
 
     //const body = JSON.stringify({name, email, password});
-    axios.post('/api/users/temp-register',user ,config )
-    .then(res => dispatch({
-        type: REGISTER_SUCCESS,
-        payload: res.data
-    }))
-    .catch(err =>{
-        dispatch(returnErrors(err.response.data, err.response.status,'REGISTER_FAIL'))
-        dispatch({
-            type: REGISTER_FAIL
+    axios.post('/api/users/temp-register', user, config)
+        .then(res => dispatch({
+            type: REGISTER_SUCCESS,
+            payload: res.data
+        }))
+        .catch(err => {
+            dispatch(returnErrors(err.response.data, err.response.status, 'REGISTER_FAIL'))
+            dispatch({
+                type: REGISTER_FAIL
+            })
         })
-    })
 }
 
-export const verify = (user) => dispatch =>{
+export const verify = (user) => dispatch => {
     const config = {
         headers: {
             'Content-Type': 'application/json'
         }
     }
 
-    axios.post('/api/users/verify-user',user, config)
-    .then(res => dispatch({
-        type: VERIFY_SUCCESS,
-        payload: res.data
-    }))
-    .catch(err =>{
-        dispatch(returnErrors(err.response.data, err.response.status,'VERIFY_FAIL'))
-        dispatch({
-            type: VERIFY_FAIL
+    axios.post('/api/users/verify-user', user, config)
+        .then(res => dispatch({
+            type: VERIFY_SUCCESS,
+            payload: res.data
+        }))
+        .catch(err => {
+            dispatch(returnErrors(err.response.data, err.response.status, 'VERIFY_FAIL'))
+            dispatch({
+                type: VERIFY_FAIL
+            })
         })
-    })
 }
 
-export const deleteUsers = () => dispatch =>{
+export const deleteUsers = () => dispatch => {
     axios.delete(`/api/users`)
         .then(res => dispatch({
             type: DELETE_EXPIRED_TEMP_USERS
@@ -67,7 +70,7 @@ export const deleteUsers = () => dispatch =>{
         });
 }
 
-export const permanentUser = (user) => dispatch =>{
+export const permanentUser = (user) => dispatch => {
 
     const config = {
         headers: {
@@ -76,17 +79,17 @@ export const permanentUser = (user) => dispatch =>{
     }
 
     //const body = JSON.stringify({name, email, password});
-    axios.post('/api/users/final-register',user ,config )
-    .then(res => dispatch({
-        type: PERMANENT_USER,
-        payload: res.data
-    }))
-    .catch(err =>{
-        dispatch(returnErrors(err.response.data, err.response.status,'PAYMENT_FAIL'))
-        dispatch({
-            type: PAYMENT_FAIL
+    axios.post('/api/users/final-register', user, config)
+        .then(res => dispatch({
+            type: PERMANENT_USER,
+            payload: res.data
+        }))
+        .catch(err => {
+            dispatch(returnErrors(err.response.data, err.response.status, 'PAYMENT_FAIL'))
+            dispatch({
+                type: PAYMENT_FAIL
+            })
         })
-    })
 }
 
 export const loadUser = () => (dispatch, getState) => {
@@ -105,7 +108,7 @@ export const loadUser = () => (dispatch, getState) => {
 
 }
 
-export const login = (user) => dispatch =>{
+export const login = (user) => dispatch => {
 
     const config = {
         headers: {
@@ -113,28 +116,43 @@ export const login = (user) => dispatch =>{
         }
     }
 
-    axios.post('/api/users/login',user ,config )
-    .then(res => dispatch({
-        type: LOGIN_SUCCESS,
-        payload: res.data
-    }))
-    .catch(err =>{
-        dispatch(returnErrors(err.response.data, err.response.status,'LOGIN_FAIL'))
-        dispatch({
-            type: LOGIN_FAIL
+    axios.post('/api/users/login', user, config)
+        .then(res => dispatch({
+            type: LOGIN_SUCCESS,
+            payload: res.data
+        }))
+        .catch(err => {
+            dispatch(returnErrors(err.response.data, err.response.status, 'LOGIN_FAIL'))
+            dispatch({
+                type: LOGIN_FAIL
+            })
         })
-    })
 }
 
-export const logout = () =>{
+export const logout = () => {
     return {
         type: LOGOUT_SUCCESS
     }
 }
 
-export const tokenConfig = getState =>{
+export const changePassword = (user) => (dispatch, getState) => {
 
-    const token = getState().auth.token;
+    axios.post('/api/users/changePassword', user, tokenConfig(getState))
+        .then(res => dispatch({
+            type: CHANGE_PASSWORD_SUCCESS,
+            payload: res.data
+        }))
+        .catch(err => {
+            dispatch(returnErrors(err.response.data, err.response.status, 'CHANGE_PASSWORD_FAIL'))
+            dispatch({
+                type: CHANGE_PASSWORD_FAIL
+            })
+        })
+}
+
+export const tokenConfig = getState => {
+
+    const token = localStorage.getItem('token');
 
     const config = {
         headers: {
@@ -147,4 +165,10 @@ export const tokenConfig = getState =>{
     }
 
     return config;
+}
+
+export const initChangePassword = () => dispatch => {
+    dispatch({
+        type: INIT_CHANGE_PASSWORD
+    })
 }
