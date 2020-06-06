@@ -43,7 +43,7 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 courseFees: action.payload.fees
-            }    
+            }
         default:
             return state;
     }

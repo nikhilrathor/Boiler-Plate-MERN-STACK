@@ -8,7 +8,7 @@ import { Redirect } from 'react-router-dom';
 class EnrollNow extends Component {
 
     componentDidMount() {
-        this.setState({msg: null});
+        this.setState({ msg: null });
     }
 
     state = {
@@ -43,7 +43,7 @@ class EnrollNow extends Component {
     onSubmit = (e) => {
         e.preventDefault();
 
-        const { name, email, password, address, course, phoneNumber } = this.state;
+        const { name, email, address, phoneNumber } = this.state;
         const vaildmail = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
         const validnumeric = /^\d+$/;
         let valid = true;
@@ -55,7 +55,7 @@ class EnrollNow extends Component {
             this.setState({ msg: 'Invalid Email' })
             valid = false
         }
-        if ((!validnumeric.test(phoneNumber) || phoneNumber.length != 10) && valid) {
+        if ((!validnumeric.test(phoneNumber) || phoneNumber.length !== 10) && valid) {
             this.setState({ msg: 'Invalid phoneNumber' })
             valid = false
         }

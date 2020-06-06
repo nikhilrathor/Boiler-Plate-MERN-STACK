@@ -32,8 +32,8 @@ class ChangePassword extends Component {
             else
                 this.setState({ msg: null });
         }
-        if(this.state.modal){
-            if(passwordChanged){
+        if (this.state.modal) {
+            if (passwordChanged) {
                 this.toggle();
             }
         }

@@ -37,4 +37,4 @@ const mapStateToProps = (state) => ({
   courses: state.courses
 })
 
-export default connect(mapStateToProps,{courseInfo})(CoursesOffered);
+export default connect(mapStateToProps, { courseInfo })(CoursesOffered);

@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import {connect} from 'react-redux';
-import {Redirect} from 'react-router-dom';
+import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 
 class admin extends Component {
     render() {
-        if(!this.props.loggedInAdmin)
+        if (!this.props.loggedInAdmin)
             return (<Redirect to='/' />)
         return (
             <div>
@@ -14,7 +14,7 @@ class admin extends Component {
     }
 }
 
-const MapStateToProps = state =>({
+const MapStateToProps = state => ({
     loggedInAdmin: state.auth.loggedInAdmin
 })
 

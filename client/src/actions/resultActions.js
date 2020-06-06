@@ -1,4 +1,4 @@
-import { GET_COURSE_RESULTS, GET_ALL_RESULTS} from './types';
+import { GET_COURSE_RESULTS, GET_ALL_RESULTS } from './types';
 import { returnErrors } from './errorActions';
 import axios from 'axios';
 

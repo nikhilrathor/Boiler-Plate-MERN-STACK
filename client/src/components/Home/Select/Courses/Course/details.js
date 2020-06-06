@@ -31,7 +31,7 @@ class Details extends Component {
                             <h3>Process of Registration</h3>
                             <p>The registration process will be through online mode only and there will be a single registration for both Preliminary and Main examination, wherever applicable. Mode of Payment Mode of payment of fees/intimation charges will be only online and the channels for online.</p>
                         </div>
-                        <div class="content clearfix">
+                        <div className="content clearfix">
                             <h3>Eligibility</h3>
                             <p>Any graduate within the age group of 21 to 30 years is eligible for the CWE. For candidates from reserved categories, relaxation in the upper age limit is available.</p>
                         </div>

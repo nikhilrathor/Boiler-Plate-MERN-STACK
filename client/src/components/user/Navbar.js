@@ -5,8 +5,7 @@ import {
     NavbarToggler,
     Nav,
     NavItem,
-    NavLink,
-    Button
+    NavLink
 } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import ChangePassword from './changePassword';

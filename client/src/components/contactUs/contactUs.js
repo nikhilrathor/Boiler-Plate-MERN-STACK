@@ -62,24 +62,24 @@ class ContactUs extends Component {
                 <Row>
                     <Col sm="12" md={{ size: 6, offset: 3 }}>
                         <Jumbotron>
-                        {this.state.msg ? (<Alert color={this.state.sent === 'true' ? 'success' : 'danger'}>{this.state.msg}</Alert>) : null}
-                            
+                            {this.state.msg ? (<Alert color={this.state.sent === 'true' ? 'success' : 'danger'}>{this.state.msg}</Alert>) : null}
+
                             <Form onSubmit={this.onSubmit}>
                                 <FormGroup>
                                     <Label for="name">Name</Label>
-                                    <Input type="text" name="name" id="name" placeholder="Enter your name" onChange={this.onChange}/>
+                                    <Input type="text" name="name" id="name" placeholder="Enter your name" onChange={this.onChange} />
                                 </FormGroup>
                                 <FormGroup>
                                     <Label for="email">Email</Label>
-                                    <Input type="email" name="email" id="email" placeholder="Enter your email" onChange={this.onChange}/>
+                                    <Input type="email" name="email" id="email" placeholder="Enter your email" onChange={this.onChange} />
                                 </FormGroup>
                                 <FormGroup>
                                     <Label for="subject">Subject</Label>
-                                    <Input type="text" name="subject" id="subject" placeholder="Enter your Subject " onChange={this.onChange}/>
+                                    <Input type="text" name="subject" id="subject" placeholder="Enter your Subject " onChange={this.onChange} />
                                 </FormGroup>
                                 <FormGroup>
                                     <Label for="exampleText">Message</Label>
-                                    <Input type="textarea" name="message" id="message" placeholder="Enter your Message" onChange={this.onChange}/>
+                                    <Input type="textarea" name="message" id="message" placeholder="Enter your Message" onChange={this.onChange} />
                                 </FormGroup>
                                 <Button>Send Message</Button>
                             </Form>

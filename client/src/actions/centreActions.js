@@ -2,7 +2,7 @@ import { CENTRE_INFO, GET_ALL_CENTRES, GET_CENTRE_BY_PLACE, GET_CENTRES_BY_COURS
 import { returnErrors } from './errorActions';
 import axios from 'axios';
 
-export const centreInfo = (centre) => dispatch =>{
+export const centreInfo = (centre) => dispatch => {
     dispatch({
         type: CENTRE_INFO,
         payload: centre

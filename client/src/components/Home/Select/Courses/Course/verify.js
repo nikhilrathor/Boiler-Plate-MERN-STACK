@@ -12,7 +12,7 @@ import {
 } from 'reactstrap';
 import { connect } from 'react-redux';
 import { clearErrors } from '../../../../../actions/errorActions';
-import {verify} from '../../../../../actions/authActions';
+import { verify } from '../../../../../actions/authActions';
 
 class EnrollNowVerify extends Component {
     state = {
@@ -32,8 +32,8 @@ class EnrollNowVerify extends Component {
                 this.setState({ msg: null });
         }
 
-        if(this.state.modal){
-            if(isAuthenticated){
+        if (this.state.modal) {
+            if (isAuthenticated) {
                 this.toggle();
             }
         }

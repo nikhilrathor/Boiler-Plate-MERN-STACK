@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Jumbotron, Toast, ToastBody, ToastHeader, Button, Row, Form, FormGroup, Label, Input, Alert, Container, Col } from 'reactstrap';
+import { Jumbotron, Toast, ToastBody, ToastHeader, Row, Form, FormGroup, Label, Input, Alert, Container, Col } from 'reactstrap';
 import { connect } from 'react-redux';
 import { getCentresByCourse } from '../../actions/centreActions';
 import { permanentUser } from '../../actions/authActions';

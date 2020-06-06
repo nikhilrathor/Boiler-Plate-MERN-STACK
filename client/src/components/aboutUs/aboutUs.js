@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Jumbotron, Button, Container, Row, Col } from 'reactstrap';
+import { Jumbotron, Container, Row, Col } from 'reactstrap';
 
 class AboutUs extends Component {
     render() {
@@ -19,7 +19,7 @@ class AboutUs extends Component {
 
                             <p>At Everest Educom Coaching Centre, we are committed to providing you the best in the arena whether it is the classroom atmosphere, the quality of lectures, the study material, the test series or the guidance and information, Paramount has consistently been the 360 degree benchmark setter in the past decade and with our innovative approaches and consistent efforts, we will continue to define the future of quality education.</p>
 
-<p>Students are today enlightened and focused. They know what they are up to. They need just a ray of guidance. I feel I have accomplished the reason of my very own existence on this earth. Proud to be that faint ray of guidance, proud to be a reason of smile on certain lips, proud to be your teacher, friend and guide.</p>
+                            <p>Students are today enlightened and focused. They know what they are up to. They need just a ray of guidance. I feel I have accomplished the reason of my very own existence on this earth. Proud to be that faint ray of guidance, proud to be a reason of smile on certain lips, proud to be your teacher, friend and guide.</p>
                         </Jumbotron>
                     </Col>
                 </Row>

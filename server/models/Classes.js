@@ -9,7 +9,7 @@ const ClassesSchema = mongoose.Schema({
         type: String,
         required: true
     },
-    topicName:{
+    topicName: {
         type: String,
         required: true
     },

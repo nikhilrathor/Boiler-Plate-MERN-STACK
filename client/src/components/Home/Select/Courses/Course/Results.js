@@ -17,11 +17,12 @@ class Results extends Component {
         <Row xs="4" >
           {
             results.map(({ achieverName, rank }) => (
-              <Col ><Card>
+              <Col key={Date.now()}><Card>
                 <CardImg top width="100%" src="/logo192.png" alt="Card image cap" />
                 <CardText>
-                  <p>{achieverName}</p>
-                  <p>Rank: {rank}</p>
+                  {achieverName}
+                  <br />
+                  Rank: {rank}
                 </CardText>
               </Card></Col>
             ))

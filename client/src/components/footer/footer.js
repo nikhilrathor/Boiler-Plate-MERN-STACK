@@ -59,12 +59,12 @@ const Footer = () => {
                 </Container>
             </Navbar>
             <Navbar className="navbar navbar-dark bg-secondary">
-            <Container >
-                <Row className="text-center">
-                © 2020 Everest Educom Pvt. Ltd, All rights reserved. Privacy policy and Disclaimer.
-          Presented by Nikhil Rathor
+                <Container >
+                    <Row className="text-center">
+                        © 2020 Everest Educom Pvt. Ltd, All rights reserved. Privacy policy and Disclaimer.
+                        Presented by Nikhil Rathor
                 </Row>
-            </Container>
+                </Container>
             </Navbar>
         </div>
     );
