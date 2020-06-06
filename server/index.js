@@ -8,6 +8,7 @@ const results = require('./routes/api/results');
 const centre = require('./routes/api/centre');
 const classes = require('./routes/api/classes');
 const exams = require('./routes/api/exams');
+const mail = require('./routes/api/mail');
 const config = require('./config/key');
 
 mongoose.connect(config.mongoURI,
@@ -29,6 +30,7 @@ app.use('/api/results', results);
 app.use('/api/centre', centre);
 app.use('/api/classes', classes);
 app.use('/api/exams', exams);
+app.use('/api/mail', mail);
 
 const port = 5000 || process.env.PORT;
 

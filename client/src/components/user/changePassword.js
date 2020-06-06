@@ -8,7 +8,8 @@ import {
     FormGroup,
     Label,
     Input,
-    Alert
+    Alert,
+    NavLink
 } from 'reactstrap';
 import { connect } from 'react-redux';
 import { clearErrors } from '../../actions/errorActions';
@@ -80,7 +81,7 @@ class ChangePassword extends Component {
     render() {
         return (
             <div>
-                <Button onClick={this.toggle} color="primary">Change Password</Button>
+                <NavLink onClick={this.toggle}>Change Password</NavLink>
                 <Modal
                     isOpen={this.state.modal}
                     toggle={this.toggle}

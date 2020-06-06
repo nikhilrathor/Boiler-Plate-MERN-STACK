@@ -21,7 +21,7 @@ const Footer = () => {
                             <br></br>
                             Everest Educom, we are committed to providing you the best in the arena whether it is the classroom atmosphere, the quality of lectures, the study material, the test series or the guidance and information…
                             <br></br>
-                            <NavLink href="/about">
+                            <NavLink href="/about-us">
                                 <Button color="info">Learn More</Button>{' '}
                             </NavLink>
 
