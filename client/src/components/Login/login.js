@@ -8,7 +8,19 @@ class Login extends Component {
     state = {
         email: '',
         password: '',
-        msg: ''
+        msg: null
+    }
+
+    componentDidUpdate(prevProps) {
+        const { error } = this.props;
+        if (error !== prevProps.error) {
+            if (error.id === 'LOGIN_FAIL') {
+                this.setState({ msg: error.msg.msg });
+            }
+            else
+                this.setState({ msg: null });
+        }
+
     }
 
     onChange = (e) => {
@@ -96,6 +108,7 @@ class Login extends Component {
 };
 
 const MapStateToProps = state => ({
+    error: state.error,
     loggedInUser: state.auth.loggedInUser,
     loggedInAdmin: state.auth.loggedInAdmin
 })
