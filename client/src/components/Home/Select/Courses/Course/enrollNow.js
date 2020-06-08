@@ -16,6 +16,7 @@ class EnrollNow extends Component {
         email: '',
         address: '',
         phoneNumber: '',
+        //date:null,
         course: localStorage.getItem('courseInfo'),
         msg: null
     };
@@ -43,7 +44,7 @@ class EnrollNow extends Component {
     onSubmit = (e) => {
         e.preventDefault();
 
-        const { name, email, address, phoneNumber } = this.state;
+        const { name, email, address, phoneNumber, date } = this.state;
         const vaildmail = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
         const validnumeric = /^\d+$/;
         let valid = true;
@@ -59,6 +60,10 @@ class EnrollNow extends Component {
             this.setState({ msg: 'Invalid phoneNumber' })
             valid = false
         }
+        /* if (!date && valid) {
+            this.setState({ msg: 'Date field cannot be empty' })
+            valid = false
+        } */
         if (!address && valid) {
             this.setState({ msg: 'Address field cannot be empty' })
             valid = false
@@ -112,6 +117,16 @@ class EnrollNow extends Component {
                                         <Label for="phoneNumber">Phone Number</Label>
                                         <Input type="number" name="phoneNumber" id="phoneNumber" placeholder="Phone Number" onChange={this.onChange} />
                                     </FormGroup>
+                                    {/* <FormGroup>
+                                        <Label for="exampleDate">Date</Label>
+                                        <Input
+                                            type="date"
+                                            name="date"
+                                            id="exampleDate"
+                                            placeholder="date placeholder"
+                                            onChange={this.onChange}
+                                        />
+                                    </FormGroup> */}
                                     <FormGroup>
                                         <Label for="address">Address</Label>
                                         <Input type="textarea" name="address" id="address" placeholder="Address" onChange={this.onChange} />

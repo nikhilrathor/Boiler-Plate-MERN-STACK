@@ -49,7 +49,7 @@ class NavBar extends Component {
     if (this.props.loggedInAdmin) {
       buttons = (<Nav className="ml-auto" navbar>
         <NavItem >
-          <NavLink tag={Link} to="/admin" >
+          <NavLink tag={Link} to="/admin/courses" >
             <Button outline color="secondary">Admin Area</Button>{' '}
           </NavLink>
         </NavItem>

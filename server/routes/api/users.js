@@ -45,7 +45,7 @@ router.post('/temp-register', (req, res) => {
                         Have a pleasent Day!`;
                         mailer.sendEmail('admin@EverestEducom.com', user.email, 'Temporary Account', html);
                         return res.status(200).json({
-                            msg: "Security Token send to your Mail"
+                            msg: "Temporary Password for sent to your Mail"
                         })
                     })
                     .catch(err => {

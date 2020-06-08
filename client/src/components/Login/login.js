@@ -57,7 +57,7 @@ class Login extends Component {
         if (this.props.loggedInUser)
             return <Redirect to='user/classes' />
         if (this.props.loggedInAdmin)
-            return <Redirect to='admin' />
+            return <Redirect to='admin/courses' />
         return (
             <div className="mt-5">
                 <Jumbotron>
