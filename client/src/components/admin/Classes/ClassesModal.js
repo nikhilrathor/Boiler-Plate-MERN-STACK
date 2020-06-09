@@ -13,7 +13,8 @@ import {
     Alert
 } from 'reactstrap';
 import { connect } from 'react-redux';
-//import { addItem } from '../actions/itemActions';
+import { getCentresByCourse } from '../../../actions/centreActions';
+import axios from 'axios';
 
 class ClassesModal extends Component {
     state = {
@@ -26,11 +27,11 @@ class ClassesModal extends Component {
         msg: null
     }
 
-    componentDidUpdate(){
-        const {courseName} = this.state;
-        if(courseName !== 'Select Course')
-        {
-            console.log(courseName);
+    componentDidUpdate(prevProps, prevState) {
+        const { courseName } = this.state;
+
+        if (courseName !== prevState.courseName) {
+            this.props.getCentresByCourse(courseName);
         }
     }
 
@@ -100,22 +101,35 @@ class ClassesModal extends Component {
                 courseName: courseName,
                 centre: centre
             }
-            console.log(day, time, topicName, teacherName, courseName, centre)
-            //this.props.addItem(newItem);
-            this.toggle();
-            this.setState({
-                day: 'Select Day',
-                topicName: '',
-                time: null,
-                teacherName: '',
-                courseName: 'Select Course',
-                centre: 'Select Centre',
-                msg: null
-            })
+            const config = {
+                headers: {
+                    "Content-type": "application/json",
+                    'x-auth-token': localStorage.getItem('token')
+                }
+            }
+
+            axios.post('/api/classes', newClass, config)
+                .then(
+                    this.toggle(),
+                    this.setState({
+                        day: 'Select Day',
+                        topicName: '',
+                        time: null,
+                        teacherName: '',
+                        courseName: 'Select Course',
+                        centre: 'Select Centre',
+                        msg: null
+                    })
+                )
+                .catch(err =>
+                    this.setState({ msg: "Something went wrong, try again!" })
+                )
         }
     }
 
     render() {
+        const { courses } = this.props.courses;
+        const { centres } = this.props;
         return (
             <div>
                 <Button
@@ -200,13 +214,9 @@ class ClassesModal extends Component {
                                         <Label for="day">Course</Label>
                                         <Input type="select" name="course" id="course" onChange={this.setCourse}>
                                             <option>Select Course</option>
-                                            <option>Monday</option>
-                                            <option>Tuesday</option>
-                                            <option>Wednesday</option>
-                                            <option>Thursday</option>
-                                            <option>Friday</option>
-                                            <option>Saturday</option>
-                                            <option>Sunday</option>
+                                            {courses.map(({ _id, courseName }) => (
+                                                <option key={_id}>{courseName}</option>
+                                            ))}
                                         </Input>
                                     </FormGroup>
                                 </Col>
@@ -215,13 +225,9 @@ class ClassesModal extends Component {
                                         <Label for="day">Centre</Label>
                                         <Input type="select" name="centre" id="centre" onChange={this.setCentre} disabled={this.state.courseName === 'Select Course'}>
                                             <option>Select Centre</option>
-                                            <option>Monday</option>
-                                            <option>Tuesday</option>
-                                            <option>Wednesday</option>
-                                            <option>Thursday</option>
-                                            <option>Friday</option>
-                                            <option>Saturday</option>
-                                            <option>Sunday</option>
+                                            {centres && centres.map(({ _id, placeName }) => (
+                                                <option key={_id}>{placeName}</option>
+                                            ))}
                                         </Input>
                                     </FormGroup>
                                 </Col>
@@ -240,9 +246,9 @@ class ClassesModal extends Component {
         );
     }
 }
-/* const mapStateTopProps = state => ({
-    isAuthenticated: state.auth.isAuthenticated,
-    user: state.auth.user
-}) */
+const mapStateToProps = (state) => ({
+    courses: state.courses,
+    centres: state.centres.centresByCourse,
+})
 
-export default ClassesModal;
+export default connect(mapStateToProps, { getCentresByCourse })(ClassesModal);

@@ -1,12 +1,13 @@
 const express = require('express');
 const router = express.Router();
 const auth = require('../../middleware/auth');
+const admin = require('../../middleware/admin');
 
 const Exams = require('../../models/Exams');
 const User = require('../../models/User');
 
 
-router.post('/', (req, res) => {
+router.post('/', admin, (req, res) => {
     const { date, time, courseName, centre, topicName } = req.body;
 
     const exam = new Exams({

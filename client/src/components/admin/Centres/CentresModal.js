@@ -106,7 +106,7 @@ class CentreModal extends Component {
                     this.toggle(),
                     this.setState({ msg: null, placeName: '', phoneNumber: 0, email: '', address: '', embeddedURL: '', coursesOffered: [] })
                 )
-                .catch(
+                .catch(err =>
                     this.setState({ msg: "Something went wrong, try again!" })
                 )
 

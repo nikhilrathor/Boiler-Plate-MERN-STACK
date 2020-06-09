@@ -12,10 +12,8 @@ import {
     Col,
     Alert
 } from 'reactstrap';
-import { connect } from 'react-redux';
 import CKEditor from 'ckeditor4-react';
 import axios from 'axios';
-//import { addItem } from '../actions/itemActions';
 
 class CourseModal extends Component {
     state = {
@@ -77,10 +75,9 @@ class CourseModal extends Component {
                     this.toggle(),
                     this.setState({ msg: null, description: '', courseName: '', fees: '' })
                 )
-                .catch(
+                .catch(err =>
                     this.setState({msg: "Something went wrong, try again!"})
                 )
-            //this.props.addItem(newItem);
         }
     }
 
@@ -159,9 +156,5 @@ class CourseModal extends Component {
         );
     }
 }
-/* const mapStateTopProps = state => ({
-    isAuthenticated: state.auth.isAuthenticated,
-    user: state.auth.user
-}) */
 
 export default CourseModal;

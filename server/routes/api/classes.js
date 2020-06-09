@@ -1,12 +1,13 @@
 const express = require('express');
 const router = express.Router();
 const auth = require('../../middleware/auth');
+const admin = require('../../middleware/admin');
 
 const Classes = require('../../models/Classes');
 const User = require('../../models/User');
 
 
-router.post('/', (req, res) => {
+router.post('/', admin, (req, res) => {
     const { day, time, teacherName, courseName, centre, topicName } = req.body;
 
     const classes = new Classes({
@@ -20,7 +21,8 @@ router.post('/', (req, res) => {
         }
     });
     classes.save()
-        .then(data => res.json(data));
+        .then(data => res.json(data))
+        .catch(err => res.status(400));
 });
 
 router.get('/user', auth, (req, res) => {

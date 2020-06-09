@@ -19,7 +19,8 @@ router.post('/', admin, (req, res) => {
         courseOffered: req.body.courseOffered
     });
     centre.save()
-        .then(centre => res.json(centre));
+        .then(centre => res.json(centre))
+        .catch(err => res.status(400));
 });
 
 router.get('/place/:placeName', (req, res) => {
@@ -31,7 +32,12 @@ router.get('/place/:placeName', (req, res) => {
 router.get('/course/:courseName', (req, res) => {
     const courseName = req.params.courseName;
     Centre.find({ courseOffered: courseName }, { placeName: 1 }).sort({ placeName: 'descending' })
-        .then(centre => res.json(centre))
+        .then(centre => {
+            res.status(200).json(centre)
+        })
+        .catch(err => {
+            res.status(400)
+        });
 });
 
 module.exports = router;
