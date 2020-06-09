@@ -2,12 +2,14 @@ import React, { Component } from 'react';
 import { Jumbotron } from 'reactstrap';
 import { connect } from 'react-redux';
 import { courseDescription } from '../../../../../actions/coursesActions';
+import parse from 'html-react-parser';
 
 class Details extends Component {
     componentDidMount() {
         this.props.courseDescription(localStorage.getItem('courseInfo'));
     }
     render() {
+        const details = parse(this.props.description);
         return (
             <Jumbotron className='mt-5'>
                 <div >
@@ -16,7 +18,7 @@ class Details extends Component {
                     </div>
                     <div >
                         <div >
-                            <p>{this.props.description}</p>
+                            <p>{details}</p>
                             <h3>Special Batches for IBPS PO 2015-16</h3>
                             <p>To work as a manager in the banking industry, the first stepping stone is becoming a Probationary Officer (PO). A PO starts as a trainee officer in the Junior Management Grade Scale (JMGS) of the bank and can rise to the highest levels, becoming a General Manager, an Executive Director or even the Chairman of the Bank.<br></br>
                         Various nationalized and Private banks conduct their own PO exams to recruit candidates. While different banks may have their own eligibility and selection criteria, the broad prescribed format is as listed below.</p>

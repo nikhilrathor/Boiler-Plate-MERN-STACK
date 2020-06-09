@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const admin = require('../../middleware/admin');
 
 const Courses = require('../../models/Courses');
 
@@ -8,14 +9,15 @@ router.get('/', (req, res) => {
         .then(courses => res.json(courses));
 });
 
-router.post('/', (req, res) => {
+router.post('/', admin, (req, res) => {
     const newCourse = new Courses({
         courseName: req.body.courseName,
         fees: req.body.fees,
         description: req.body.description
     });
     newCourse.save()
-        .then(course => res.json(course));
+        .then(course => res.json(course))
+        .catch(err => res.status(401).json({ msg: 'Something went wrong!' }))
 });
 
 router.get('/description/:courseName', (req, res) => {

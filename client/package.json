@@ -10,6 +10,8 @@
     "bootstrap": "^4.4.1",
     "ckeditor4-react": "^1.1.0",
     "concurrently": "^5.2.0",
+    "he": "^1.2.0",
+    "html-react-parser": "^0.13.0",
     "materialize-css": "^1.0.0-rc.2",
     "react": "^16.13.1",
     "react-bootstrap": "^1.0.1",

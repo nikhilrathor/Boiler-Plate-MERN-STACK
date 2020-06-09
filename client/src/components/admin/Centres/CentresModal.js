@@ -13,6 +13,7 @@ import {
     Alert
 } from 'reactstrap';
 import { connect } from 'react-redux';
+import axios from 'axios';
 //import { addItem } from '../actions/itemActions';
 
 class CentreModal extends Component {
@@ -40,18 +41,18 @@ class CentreModal extends Component {
     checkChange = (e) => {
         const options = [...this.state.options]
         let index
-    
+
         if (e.target.checked) {
-          options.push(e.target.value)
+            options.push(e.target.value)
         } else {
-          index = options.indexOf(e.target.value)
-          options.splice(index, 1)
+            index = options.indexOf(e.target.value)
+            options.splice(index, 1)
         }
-    
-        options.sort()    
-    
+
+        options.sort()
+
         this.setState({ options: options })
-      }
+    }
 
     onSubmit = (e) => {
         e.preventDefault();
@@ -90,17 +91,30 @@ class CentreModal extends Component {
                 phoneNumber: phoneNumber,
                 email: email,
                 address: address,
-                embeddedURL: embeddedURL,
-                coursesOffered: options
+                embeddedUrl: embeddedURL,
+                courseOffered: options
             }
-            //console.log(placeName, phoneNumber, email, address, embeddedURL, options)
-            //this.props.addItem(newItem);
-            this.toggle();
-            this.setState({ msg: null, placeName: '', phoneNumber: 0, email: '', address: '', embeddedURL: '', coursesOffered: [] })
+            const config = {
+                headers: {
+                    "Content-type": "application/json",
+                    'x-auth-token': localStorage.getItem('token')
+                }
+            }
+
+            axios.post('/api/centre', newCentre, config)
+                .then(
+                    this.toggle(),
+                    this.setState({ msg: null, placeName: '', phoneNumber: 0, email: '', address: '', embeddedURL: '', coursesOffered: [] })
+                )
+                .catch(
+                    this.setState({ msg: "Something went wrong, try again!" })
+                )
+
         }
     }
 
     render() {
+        const { courses } = this.props.courses;
         return (
             <div>
                 <Button
@@ -184,67 +198,21 @@ class CentreModal extends Component {
                                             name="embeddedURL"
                                             id="embeddedURL"
                                             placeholder="Map EmbeddedURL"
-                                            onChange={this.onChange} 
-                                            className="mb-3"/>
+                                            onChange={this.onChange}
+                                            className="mb-3" />
                                     </FormGroup>
                                 </Col>
                             </Row>
                             <FormGroup>
-                            <Label for="Courses">Courses Offered</Label>
+                                <Label for="Courses">Courses Offered</Label>
                             </FormGroup>
-                            
-                            <FormGroup check inline>
-        <Label check>
-          <Input type="checkbox" value="Some input10" onChange={this.checkChange} className="mb-3"/> Some input
-        </Label>
-      </FormGroup>
-      <FormGroup check inline>
-        <Label check>
-           <Input type="checkbox" value="Some input" onChange={this.checkChange} className="mb-3"/> Some other input
-        </Label>
-      </FormGroup>
-      <FormGroup check inline>
-        <Label check>
-          <Input type="checkbox" value={"Some input8"} onChange={this.checkChange} className="mb-3"/> Some input
-        </Label>
-      </FormGroup>
-      <FormGroup check inline>
-        <Label check>
-           <Input type="checkbox" value={"Some input7"} onChange={this.checkChange} className="mb-3"/> Some other input
-        </Label>
-      </FormGroup>
-      <FormGroup check inline>
-        <Label check>
-          <Input type="checkbox" value={"Some input6"} onChange={this.checkChange} className="mb-3"/> Some input
-        </Label>
-      </FormGroup>
-      <FormGroup check inline>
-        <Label check>
-           <Input type="checkbox" value={"Some input5"} onChange={this.checkChange} className="mb-3"/> Some other input
-        </Label>
-      </FormGroup>
-      <FormGroup check inline>
-        <Label check>
-          <Input type="checkbox" value={"Some input4"} onChange={this.checkChange} className="mb-3"/> Some input
-        </Label>
-      </FormGroup>
-      <FormGroup check inline>
-        <Label check>
-           <Input type="checkbox" value={"Some input3"} onChange={this.checkChange} className="mb-3"/> Some other input
-        </Label>
-      </FormGroup>
-      <FormGroup check inline>
-        <Label check>
-          <Input type="checkbox" value={"Some input2"} onChange={this.checkChange} className="mb-3"/> Some input
-        </Label>
-      </FormGroup>
-      <FormGroup check inline>
-        <Label check>
-           <Input type="checkbox" value={"Some input1"} onChange={this.checkChange} className="mb-3"/> Some other input
-        </Label>
-      </FormGroup>
-      
-
+                            {courses.map(({ _id, courseName }) => (
+                                <FormGroup check inline key={_id}>
+                                    <Label check>
+                                        <Input type="checkbox" value={courseName} onChange={this.checkChange} className="mb-3" /> {courseName}
+                                    </Label>
+                                </FormGroup>
+                            ))}
                             <Button
                                 color="dark"
                                 style={{ marginTop: '2rem' }}
@@ -259,9 +227,8 @@ class CentreModal extends Component {
         );
     }
 }
-/* const mapStateTopProps = state => ({
-    isAuthenticated: state.auth.isAuthenticated,
-    user: state.auth.user
-}) */
+const mapStateToProps = (state) => ({
+    courses: state.courses
+})
 
-export default CentreModal;
+export default connect(mapStateToProps)(CentreModal);

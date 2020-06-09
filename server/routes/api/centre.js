@@ -1,4 +1,5 @@
 const express = require('express');
+const admin = require('../../middleware/admin');
 const router = express.Router();
 
 const Centre = require('../../models/Centre');
@@ -8,7 +9,7 @@ router.get('/', (req, res) => {
         .then(centre => res.json(centre));
 });
 
-router.post('/', (req, res) => {
+router.post('/', admin, (req, res) => {
     const centre = new Centre({
         placeName: req.body.placeName,
         phoneNumber: req.body.phoneNumber,

@@ -14,6 +14,7 @@ import {
 } from 'reactstrap';
 import { connect } from 'react-redux';
 import CKEditor from 'ckeditor4-react';
+import axios from 'axios';
 //import { addItem } from '../actions/itemActions';
 
 class CourseModal extends Component {
@@ -64,10 +65,22 @@ class CourseModal extends Component {
                 fees: fees,
                 description: description
             }
-            console.log(courseName, fees, description)
+            const config = {
+                headers: {
+                    "Content-type": "application/json",
+                    'x-auth-token': localStorage.getItem('token')
+                }
+            }
+
+            axios.post('/api/courses', newCourse, config)
+                .then(
+                    this.toggle(),
+                    this.setState({ msg: null, description: '', courseName: '', fees: '' })
+                )
+                .catch(
+                    this.setState({msg: "Something went wrong, try again!"})
+                )
             //this.props.addItem(newItem);
-            this.toggle();
-            this.setState({ msg: null, description: '', courseName: '', fees: '' })
         }
     }
 

@@ -17,6 +17,7 @@ class Centre extends Component {
             <div className='mt-5'>
                 <Jumbotron>
                     <h1 className="text-center">{placeName}</h1>
+                    <hr></hr>
                     <Container>
                         <Row>
                             <Col>
