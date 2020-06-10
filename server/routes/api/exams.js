@@ -39,4 +39,9 @@ router.get('/user', auth, (req, res) => {
         })
 });
 
+router.get('/getall', admin, (req, res) => {
+    Exams.find({})
+        .then(exams => res.json(exams));
+});
+
 module.exports = router;

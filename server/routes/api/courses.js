@@ -9,6 +9,12 @@ router.get('/', (req, res) => {
         .then(courses => res.json(courses));
 });
 
+router.get('/getall',admin, (req, res) => {
+    Courses.find({}, { courseName: 1, fees:1 })
+        .then(courses => res.json(courses));
+});
+
+
 router.post('/', admin, (req, res) => {
     const newCourse = new Courses({
         courseName: req.body.courseName,

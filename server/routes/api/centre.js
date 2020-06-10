@@ -9,6 +9,11 @@ router.get('/', (req, res) => {
         .then(centre => res.json(centre));
 });
 
+router.get('/getall', admin, (req, res) => {
+    Centre.find({})
+        .then(centre => res.json(centre));
+});
+
 router.post('/', admin, (req, res) => {
     const centre = new Centre({
         placeName: req.body.placeName,

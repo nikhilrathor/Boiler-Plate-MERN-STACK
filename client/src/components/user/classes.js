@@ -25,7 +25,7 @@ class Classes extends Component {
             })
     }
     render() {
-        console.log(this.state.classes)
+        //console.log(this.state.classes)
         const { classes } = this.state;
         return (
             <div>

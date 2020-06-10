@@ -5,7 +5,7 @@ import { Table } from 'reactstrap';
 
 class Exams extends Component {
     state = {
-        classes: null
+        exams: null
     }
     componentDidMount() {
 
@@ -18,15 +18,15 @@ class Exams extends Component {
 
         axios.get('/api/exams/user', config)
             .then(res => this.setState({
-                classes: res.data
+                exams: res.data
             }))
             .catch(err => {
                 returnErrors(err.data, err.status)
             })
     }
     render() {
-        console.log(this.state.classes)
-        const { classes } = this.state;
+        //console.log(this.state.exams)
+        const { exams } = this.state;
         return (
             <div>
                 <h1 className="text-center mt-5">EXAM SCHEDULE</h1>
@@ -41,7 +41,7 @@ class Exams extends Component {
                         </tr>
                     </thead>
                     <tbody>
-                        {classes && classes.map(({ course, date, time, topicName }) => (
+                        {exams && exams.map(({ course, date, time, topicName }) => (
                             <tr key={date}>
                                 <td>{date}</td>
                                 <td>{time}</td>

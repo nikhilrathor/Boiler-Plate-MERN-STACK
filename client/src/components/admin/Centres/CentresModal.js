@@ -116,13 +116,13 @@ class CentreModal extends Component {
     render() {
         const { courses } = this.props.courses;
         return (
-            <div>
+            <div className="mt-5 ml-5">
                 <Button
                     color="dark"
                     style={{ marginBottom: '2rem' }}
                     onClick={this.toggle}
                 >
-                    Add Centre
+                    Add New Centre
                 </Button>
                 <Modal
                     isOpen={this.state.modal}

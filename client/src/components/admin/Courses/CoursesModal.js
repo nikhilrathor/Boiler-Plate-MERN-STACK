@@ -83,13 +83,13 @@ class CourseModal extends Component {
 
     render() {
         return (
-            <div>
+            <div className="mt-5 ml-5">
                 <Button
                     color="dark"
                     style={{ marginBottom: '2rem' }}
                     onClick={this.toggle}
                 >
-                    Add Course
+                    Add New Course
                 </Button>
                 <Modal
                     isOpen={this.state.modal}

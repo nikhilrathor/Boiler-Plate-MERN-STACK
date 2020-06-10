@@ -41,4 +41,9 @@ router.get('/user', auth, (req, res) => {
         })
 });
 
+router.get('/getall', admin, (req, res) => {
+    Classes.find({})
+        .then(classes => res.json(classes));
+});
+
 module.exports = router;

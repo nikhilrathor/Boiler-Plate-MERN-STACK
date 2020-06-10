@@ -120,13 +120,13 @@ class ExamsModal extends Component {
         const { courses } = this.props.courses;
         const { centres } = this.props;
         return (
-            <div>
+            <div className="mt-5 ml-5">
                 <Button
                     color="dark"
                     style={{ marginBottom: '2rem' }}
                     onClick={this.toggle}
                 >
-                    Add Exam
+                    Add New Exam
                 </Button>
                 <Modal
                     isOpen={this.state.modal}
