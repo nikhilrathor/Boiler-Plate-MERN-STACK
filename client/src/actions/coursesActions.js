@@ -4,11 +4,13 @@ import axios from 'axios';
 
 export const getCourses = () => dispatch => {
     dispatch(setCoursesLoading());
-    axios.get('/api/courses').then(res =>
+    axios.get('/api/courses').then(res => {
+        console.log(res.data);
         dispatch({
             type: GET_COURSES,
             payload: res.data
-        }))
+        })
+    })
         .catch(err => {
             dispatch(returnErrors(err.response.data, err.response.status))
         });

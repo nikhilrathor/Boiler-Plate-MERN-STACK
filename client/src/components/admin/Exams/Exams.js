@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import ExamModal from './ExamsModal';
 import axios from 'axios';
-import { Table } from 'reactstrap';
+import { Table, Button } from 'reactstrap';
 
 class Exams extends Component {
     state = {
@@ -33,6 +33,17 @@ class Exams extends Component {
                 this.setState({ exams: res.data })
             })
     }
+
+    onDeleteClick = (id) => {
+        const config = {
+            headers: {
+                "Content-type": "application/json",
+                'x-auth-token': localStorage.getItem('token')
+            }
+        }
+        axios.delete(`/api/exams/${id}`, config)
+    }
+
     render() {
         const { exams } = this.state;
         return (
@@ -42,6 +53,7 @@ class Exams extends Component {
                 <Table hover responsive className="mt-5 text-center">
                     <thead>
                         <tr>
+                            <th>#</th>
                             <th>Date</th>
                             <th>Time</th>
                             <th>Course Name</th>
@@ -50,8 +62,14 @@ class Exams extends Component {
                         </tr>
                     </thead>
                     <tbody>
-                        {exams && exams.map(({ course, date, time, topicName }) => (
+                        {exams && exams.map(({ course, date, time, topicName, _id }) => (
                             <tr key={date}>
+                                <td><Button
+                                    className="remove-btn"
+                                    color="danger"
+                                    size="sm"
+                                    onClick={() => this.onDeleteClick(_id)}
+                                >&times;</Button></td>
                                 <td>{date}</td>
                                 <td>{time}</td>
                                 <td>{course.courseName}</td>

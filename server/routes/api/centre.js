@@ -45,4 +45,10 @@ router.get('/course/:courseName', (req, res) => {
         });
 });
 
+router.delete('/:id', admin, (req, res) => {
+    Centre.findByIdAndDelete(req.params.id)
+        .then(item => res.json({ success: true }))
+        .catch(err => res.status(404).json({ success: false }))
+});
+
 module.exports = router;

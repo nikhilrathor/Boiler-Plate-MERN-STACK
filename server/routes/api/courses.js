@@ -38,4 +38,10 @@ router.get('/fees/:courseName', (req, res) => {
         .then(desc => res.json(desc))
 })
 
+router.delete('/:id', admin, (req, res) => {
+    Courses.findByIdAndDelete(req.params.id)
+        .then(item => res.json({ success: true }))
+        .catch(err => res.status(404).json({ success: false }))
+});
+
 module.exports = router;

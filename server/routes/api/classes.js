@@ -46,4 +46,10 @@ router.get('/getall', admin, (req, res) => {
         .then(classes => res.json(classes));
 });
 
+router.delete('/:id', admin, (req, res) => {
+    Classes.findByIdAndDelete(req.params.id)
+        .then(item => res.json({ success: true }))
+        .catch(err => res.status(404).json({ success: false }))
+});
+
 module.exports = router;
