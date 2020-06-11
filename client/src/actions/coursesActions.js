@@ -5,7 +5,6 @@ import axios from 'axios';
 export const getCourses = () => dispatch => {
     dispatch(setCoursesLoading());
     axios.get('/api/courses').then(res => {
-        console.log(res.data);
         dispatch({
             type: GET_COURSES,
             payload: res.data

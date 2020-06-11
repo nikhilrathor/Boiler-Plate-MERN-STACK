@@ -2,13 +2,15 @@ import React, { Component } from 'react';
 import CourseModal from './CoursesModal';
 import axios from 'axios';
 import { Table } from 'reactstrap';
-import {Button} from 'reactstrap';
+import { Button } from 'reactstrap';
 
 class Courses extends Component {
     state = {
         courses: []
     }
+    _isMounted = false;
     componentDidMount() {
+        this._isMounted = true;
         const config = {
             headers: {
                 "Content-type": "application/json",
@@ -18,10 +20,16 @@ class Courses extends Component {
 
         axios.get('/api/courses/getall', config)
             .then(res => {
-                this.setState({ courses: res.data })
+                if (this._isMounted) {
+                    this.setState({ courses: res.data })
+                }
             })
+    }
+    componentWillUnmount() {
+        this._isMounted = false;
     }
     componentDidUpdate() {
+        this._isMounted = true;
         const config = {
             headers: {
                 "Content-type": "application/json",
@@ -31,10 +39,12 @@ class Courses extends Component {
 
         axios.get('/api/courses/getall', config)
             .then(res => {
-                this.setState({ courses: res.data })
+                if (this._isMounted) {
+                    this.setState({ courses: res.data })
+                }
             })
     }
-    onDeleteClick = (id) =>{
+    onDeleteClick = (id) => {
         const config = {
             headers: {
                 "Content-type": "application/json",

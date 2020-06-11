@@ -7,7 +7,9 @@ class Exams extends Component {
     state = {
         exams: []
     }
+    _isMounted = false;
     componentDidMount() {
+        this._isMounted = true;
         const config = {
             headers: {
                 "Content-type": "application/json",
@@ -17,10 +19,16 @@ class Exams extends Component {
 
         axios.get('/api/exams/getall', config)
             .then(res => {
-                this.setState({ exams: res.data })
+                if (this._isMounted) {
+                    this.setState({ exams: res.data })
+                }
             })
     }
+    componentWillUnmount() {
+        this._isMounted = false;
+    }
     componentDidUpdate() {
+        this._isMounted = true;
         const config = {
             headers: {
                 "Content-type": "application/json",
@@ -30,7 +38,9 @@ class Exams extends Component {
 
         axios.get('/api/exams/getall', config)
             .then(res => {
-                this.setState({ exams: res.data })
+                if (this._isMounted) {
+                    this.setState({ exams: res.data })
+                }
             })
     }
 

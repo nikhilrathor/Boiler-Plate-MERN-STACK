@@ -6,7 +6,9 @@ class Centres extends Component {
     state = {
         centres: []
     }
+    _isMounted = false;
     componentDidMount() {
+        this._isMounted = true;
         const config = {
             headers: {
                 "Content-type": "application/json",
@@ -16,10 +18,16 @@ class Centres extends Component {
 
         axios.get('/api/centre/getall', config)
             .then(res => {
-                this.setState({ centres: res.data })
+                if (this._isMounted) {
+                    this.setState({ centres: res.data })
+                }
             })
     }
+    componentWillUnmount() {
+        this._isMounted = false;
+    }
     componentDidUpdate() {
+        this._isMounted = true;
         const config = {
             headers: {
                 "Content-type": "application/json",
@@ -29,7 +37,9 @@ class Centres extends Component {
 
         axios.get('/api/centre/getall', config)
             .then(res => {
-                this.setState({ centres: res.data })
+                if (this._isMounted) {
+                    this.setState({ centres: res.data })
+                }
             })
     }
 
