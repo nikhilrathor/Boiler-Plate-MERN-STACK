@@ -210,8 +210,8 @@ router.get('/user', auth, (req, res) => {
         .select('-password')
         .then(user => res.json({
             user,
-            loggedInUser: user.role === 0,
-            loggedInAdmin: user.role === 1
+            loggedInUser: user.role === config.USER,
+            loggedInAdmin: user.role === config.ADMIN
         }));
 });
 
