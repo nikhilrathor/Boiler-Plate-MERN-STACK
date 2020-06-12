@@ -12,6 +12,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 import Reducer from './reducers';
 import ScrollToTop from './ScrollToTop';
+import { HashRouter } from 'react-router-dom'
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(Reducer, composeEnhancers(
@@ -22,7 +23,9 @@ ReactDOM.render(
   <Provider store={store}>
     <BrowserRouter>
       <ScrollToTop>
-        <App />
+        <HashRouter>
+          <App />
+        </HashRouter>
       </ScrollToTop>
     </BrowserRouter>
   </Provider>,
