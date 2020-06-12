@@ -64,7 +64,6 @@ router.post('/quick-enquiry', (req, res) => {
 
 router.post('/reach-out', (req, res) => {
     const { name, email, phoneNumber, selectedCourse } = req.body;
-    console.log(email);
     const html = `
                         <h1>EVEREST EDUCOM - REACH OUT TO US</h1>
                         <br /><br />

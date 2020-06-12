@@ -50,14 +50,12 @@ class Checkout extends Component {
             this.setState({
                 msg: "Transaction Error"
             })
-            console.log("Transaction Error");
         }
 
         const transactionCanceled = () => {
             this.setState({
                 msg: "Transaction Cancelled"
             })
-            console.log("Transaction Cancelled");
         }
 
         const { isAuthenticated, paymentCompleted } = this.props;
@@ -73,8 +71,8 @@ class Checkout extends Component {
                     <Row>
                         <Col sm="12" md={{ size: 6, offset: 3 }}>
                             <Jumbotron>
-                                {this.state.msg ? (<Alert color={paymentCompleted ? 'success' : 'danger'}>{this.state.msg}</Alert>) : null}
-
+                                {this.state.msg ? (<Alert color='danger'>{this.state.msg}</Alert>) : null}
+                                {paymentCompleted && this.state.msg ? (<Alert color='success'>{this.state.msg}</Alert>) : null}
                                 <h1 className="display-3" >Checkout</h1>
                                 <hr className="my-2" />
                                 <div className="p-3 bg-info my-2 rounded mt-5">
