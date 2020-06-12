@@ -33,13 +33,16 @@ app.use('/api/classes', classes);
 app.use('/api/exams', exams);
 app.use('/api/mail', mail);
 
-if(process.env.NODE_ENV === 'production'){
+if (process.env.NODE_ENV === 'production') {
     app.use(express.static('client/build'));
-    app.get('*',(req,res)=>{
+    app.get('*', (req, res) => {
         res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
     });
 }
 
-const port = 5000 || process.env.PORT;
-
-app.listen(port, () => { console.log(`server started at port ${port}`) });
+if (process.env.NODE_ENV === 'production') {
+    app.listen(process.env.PORT, '0.0.0.0');
+} else {
+    const port = 5000;
+    app.listen(port, () => { console.log(`server started at port ${port}`) });
+}
