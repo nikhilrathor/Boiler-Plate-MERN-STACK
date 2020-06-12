@@ -8,7 +8,7 @@ module.exports = {
     MAIL_USER: process.env.USER_EMAIL,
     MAIL_PASSWORD: process.env.USER_PASSWORD,
     ClientId: process.env.CLIENT_ID,
-    ClientSecret: CLIENT_SECRET,
-    RefreshToken: REFRESH_TOKEN,
-    AccessToken: ACCESS_TOKEN
+    ClientSecret: process.env.CLIENT_SECRET,
+    RefreshToken: process.env.REFRESH_TOKEN,
+    AccessToken: process.env.ACCESS_TOKEN
 }
