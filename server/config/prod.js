@@ -6,5 +6,9 @@ module.exports = {
     USER: process.env.USER_ROLE,
     ADMIN: process.env.ADMIN_ROLE,
     MAIL_USER: process.env.USER_EMAIL,
-    MAIL_PASSWORD: process.env.USER_PASSWORD
+    MAIL_PASSWORD: process.env.USER_PASSWORD,
+    ClientId: process.env.CLIENT_ID,
+    ClientSecret: CLIENT_SECRET,
+    RefreshToken: REFRESH_TOKEN,
+    AccessToken: ACCESS_TOKEN
 }
