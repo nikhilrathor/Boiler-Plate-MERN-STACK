@@ -28,10 +28,10 @@
     "react-social-icons": "^4.1.0"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "start": "react-app-env start",
+    "build": "react-app-env build",
+    "test": "react-app-env test",
+    "eject": "react-app-env eject"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -50,6 +50,7 @@
   },
   "proxy": "http://localhost:5000",
   "devDependencies": {
+    "react-app-env": "^1.2.3",
     "react-social-icons": "^4.1.0"
   }
 }
