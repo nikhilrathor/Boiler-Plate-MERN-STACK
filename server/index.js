@@ -10,6 +10,7 @@ const classes = require('./routes/api/classes');
 const exams = require('./routes/api/exams');
 const mail = require('./routes/api/mail');
 const config = require('./config/key');
+const path = require('path');
 
 mongoose.connect(config.mongoURI,
     {
@@ -31,6 +32,13 @@ app.use('/api/centre', centre);
 app.use('/api/classes', classes);
 app.use('/api/exams', exams);
 app.use('/api/mail', mail);
+
+if(process.env.NODE_ENV === 'production'){
+    app.use(express.static('client/build'));
+    app.get('*',(req,res)=>{
+        res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+    });
+}
 
 const port = 5000 || process.env.PORT;
 
