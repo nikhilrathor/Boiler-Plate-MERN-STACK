@@ -170,7 +170,6 @@ router.post('/final-register', (req, res) => {
 });
 
 router.post('/login', (req, res) => {
-    var a = false, b = false;
     const { email, password } = req.body;
 
     User.findOne({ email })
@@ -182,8 +181,6 @@ router.post('/login', (req, res) => {
                     return res.status(400).json({ msg: "Invalid Credentials" })
                 }
                 else {
-                    console.log(config.USER)
-                    console.log(config.ADMIN)
                     jwt.sign(
                         { id: user.id },
                         config.jwtSecret,
@@ -191,10 +188,6 @@ router.post('/login', (req, res) => {
                         (err, token) => {
                             if (err) throw err;
 
-                            if (user.role === config.USER)
-                                a = true;
-                            if (user.role === config.ADMIN)
-                                b = true;
                             res.json({
                                 token,
                                 user:
@@ -203,8 +196,8 @@ router.post('/login', (req, res) => {
                                     name: user.name,
                                     email: user.email
                                 },
-                                loggedInUser: a,
-                                loggedInAdmin: b
+                                loggedInUser: user.role == config.USER,
+                                loggedInAdmin: user.role == config.ADMIN
                             });
                         })
                 }
@@ -213,20 +206,13 @@ router.post('/login', (req, res) => {
 });
 
 router.get('/user', auth, (req, res) => {
-    var a = false, b = false;
     User.findById(req.user.id)
         .select('-password')
-        .then(user => {
-            if (user.role === config.USER)
-                a = true;
-            if (user.role === config.ADMIN)
-                b = true;
-            res.json({
-                user,
-                loggedInUser: a,
-                loggedInAdmin: b
-            })
-        });
+        .then(user => res.json({
+            user,
+            loggedInUser: user.role == config.USER,
+            loggedInAdmin: user.role == config.ADMIN
+        }));
 });
 
 router.post('/changePassword', auth, (req, res) => {
